@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appConfig>
+<!-- minimal configuration for the productive environment -->
+<mobileIdClient
+  AP_ID="mid://dev.swisscom.ch"
+  SslKeystore="LocalMachine"
+  SslCertThumbprint="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
+/>
+<mobileIdAdfs
+/>
+</appConfig>
+

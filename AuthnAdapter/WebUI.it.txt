@@ -1,0 +1,8 @@
+# See WebUI.txt for the description of keywords.
+
+AppletLanguage = it
+CancelButton = Cancellare accesso
+RetryButton = Riprovare accesso
+LoginPageTitle = Autenticazione con Mobile ID
+CheckYourMobile = Un messaggio Mobile ID con il testo casuale #TransId# è stato inviato a #MobileNumber#. Si prega di seguire le istruzioni del cellulare.
+MobileLoginPromt = Autenticazione con Mobile ID (#TransId#) ?

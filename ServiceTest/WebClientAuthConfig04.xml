@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mobileIdClient
+  AP_ID = "http://changeme.swisscom.ch"
+  SslCertThumbprint="AB cd 1 2 "
+  UserSerialNumberPolicy=" 3 "
+ />

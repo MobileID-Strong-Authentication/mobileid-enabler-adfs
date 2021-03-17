@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <soapenv:Fault>
+      <soapenv:Code>
+        <soapenv:Value>soapenv:Receiver</soapenv:Value>
+        <soapenv:Subcode xmlns:mss="http://uri.etsi.org/TS102204/v1.1.2#" xmlns:fi="http://mss.ficom.fi/TS102204/v1.0.0#">
+          <soapenv:Value>mss:_404</soapenv:Value>
+        </soapenv:Subcode>
+      </soapenv:Code>
+      <soapenv:Reason>
+        <soapenv:Text xml:lang="en">NO_KEY_FOUND</soapenv:Text>
+      </soapenv:Reason>
+      <soapenv:Detail>
+        <ns1:detail xmlns:ns1="http://kiuru.methics.fi/mssp">Mobile user account needs to be activated</ns1:detail>
+        <ns2:UserAssistance xmlns:ns2="http://www.swisscom.ch/TS102204/ext/v1.0.0">
+          <PortalUrl xmlns="http://www.swisscom.ch/TS102204/ext/v1.0.0">http://mobileid.ch?msisdn=41000092404</PortalUrl>
+        </ns2:UserAssistance>
+      </soapenv:Detail>
+    </soapenv:Fault>
+  </soapenv:Body>
+</soapenv:Envelope>

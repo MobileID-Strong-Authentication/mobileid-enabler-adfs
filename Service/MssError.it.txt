@@ -1,0 +1,37 @@
+﻿# Translated from MssError.txt, see MssError.txt for the description of syntax and semantics.
+
+mss_000 = Mobile ID attualmente non può essere utilizzato. Riprova più tardi.
+
+mss_101 = Il numero mobile è invalido.
+
+mss_105 = Mobile ID non è stato ancora ordinato per questo numero di telefono. Si prega di visitare il Mobile ID portale del proprio operatore mobile.
+
+mss_208 = L'operazione è scaduta. Riprovi di nuovo.
+
+mss_209 = Il servizio non ha potuto contattare apparecchiature mobili del utente finale (connessione scadente...). Riprovi di nuovo.
+
+mss_401 = Per completarla, la richiesta deve essere accettata e confermata con il Mobile ID PIN.
+
+# [S] Il vostro PIN Mobile ID é bloccato. Consulti #URL# per ripristinare il PIN.
+mss_402 = Il vostro codice PIN Mobile ID é bloccato. Consulti <a href="#PortalUrl#">il portale il tuo operatore di telefonia mobile</a> per ripristinare il PIN.
+
+# [S] Il vostro Mobile ID è sospeso. Consulti #URL# per riattivare Mobile ID.
+mss_403 = Il vostro Mobile ID è sospeso. Consulti <a href="#PortalUrl#">votre portail Mobile ID</a> per riattivare Mobile ID.
+
+# [S] Il vostro numero di telefonia mobile non é abilitato per Mobile ID. Consulti #URL# per attivare Mobile ID.
+mss_404 = Il vostro numero di telefonia mobile non é abilitato per Mobile ID. Consulti <a href="#PortalUrl#">il portale il tuo operatore di telefonia mobile</a> per riattivare Mobile ID.
+
+mss_406 = Errore causato dall'apparecchio mobile, probabilmente un altra richiesta di firma è già in corso. Riprovi di nuovo.
+
+# [S] Il vostro Mobile ID non è più attivo. Visita #URL# per riattivare Mobile ID.
+mss_422 = Il vostro Mobile ID non è più attivo. Visita <a href="#PortalUrl#">il portale il tuo operatore di telefonia mobile</a> per riattivare Mobile ID.
+
+mss_501 = Errore durante la conferma. Riprovi di nuovo e se l'errore persiste rivolgersi all'operatore di rete mobile.
+
+mss_503 = Errore durante la conferma. Riprovi di nuovo e se l'errore persiste rivolgersi all'operatore di rete mobile.
+
+# The serial number of your Mobile ID certificate is not registered.
+mss_-404 = Errore sul numero di serie del Mobile ID. Contattare il vostro amministratore di sistema.
+
+# The serial number of your Mobile ID certificate differs from the registered one.
+mss_-403 = Errore sul numero di serie del Mobile ID. Contattare il vostro amministratore di sistema.

@@ -1,0 +1,13 @@
+v1.2.0.0 (2016-02-25):
+* Add support for sanitisation of mobile numbers (github issue #12).
+* Improve logging: 
+   v1.1 writes some errors in the "AD FS/Admin" log (within "Applicaitons and Services Logs" in Event Viewer),
+   while v1.2 writes these error in "Swisscom-MobileID-Adfs12/Admin" (github issue #13).
+* Correct typos (issues #14)
+* Correct installation in secondary servers of an ADFS farm: 
+   In v1.1, some installation tasks need to be done manually.
+   In v1.2, all manual tasks are done by the set up program. Scripts are provided for manual unregistration in windows event log.
+* Add scripts to manually uninstall the Windows Event Tracing (ETW) logs.
+
+v1.1.0.0 (2015-06-15):
+* initial public release.

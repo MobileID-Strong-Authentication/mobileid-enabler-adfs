@@ -1,0 +1,6 @@
+# hash-ref used to build $TOPDIR/README.md
+{
+  VersionLong  => '1.2.0.0',
+  VersionShort => '1.2',
+  VersionAbb   => '12',
+}

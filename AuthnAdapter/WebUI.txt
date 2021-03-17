@@ -1,0 +1,17 @@
+# Language for Mobile ID applet
+AppletLanguage = en
+
+# Text for the button that would cancel the whole multi-factor login
+CancelButton = Cancel Login
+
+# Text for the button that would restart the Mobile ID login (sub-)process. The user remains authenticated with the primary authentication.
+RetryButton = Retry Login
+
+# Text for login page title
+LoginPageTitle = Login with Mobile ID
+
+# Text to be displayed in Web when a Mobile ID login prompt has been sent to user's mobile. Supported placeholder: #MobileNumber#, #TransId#
+CheckYourMobile = A Mobile ID message with the random text #TransId# has been sent to #MobileNumber#. Please follow the instructions on the mobile phone.
+
+# Login Prompt to be displayed in Mobile
+MobileLoginPromt = Login with Mobile ID (#TransId#) ?

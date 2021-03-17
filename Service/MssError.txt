@@ -1,0 +1,73 @@
+﻿# Error text to be displayed in user interface, in the default language.
+#
+# * The syntax is described in https://msdn.microsoft.com/en-us/library/s9eey0h7(v=vs.90).aspx ("Resources in Text File Format").
+# * A value can contain HTML formatting codes (e.g. <a href="...">...</a>).
+# * A value can contain the (case-insensitive) placeholder #PortalUrl#, which will be expanded to an URL (including
+#   the additional query parameter "&lang=.." specified in Mobile ID Client Ref Guide v2.6, chap.6.5) or an empty string at runtime.
+# * The value after placeholder-expansion will be included in the HTML output without further encoding.
+# * This file can be converted to resx format with resgen.exe MssError.txt MssError.resx
+# * Comments in this text can include the following codes for information source:
+#   + [D] Value of the "detail" sub-elemeent in SOAP Fault returned by Mobile ID server
+#   + [R] "Mobile ID Client Reference Reference v2.6", chap. 6 & 7.8
+#   + [S] project "simplesaml-mobileid", files dictionaries/error.*.json. Unless explicitly specified, the value here is identical with [S].
+#
+
+# default error message
+# [R] Mobile ID cannot be used at this time. Please try again later. If the error persists contact your Mobile Network Operator Support Hotline.
+mss_000 = Mobile ID can not be used at this time. Please try it again later.
+
+# [D] Error among the arguments of the request.
+mss_101 = The mobile number is invalid.
+
+# for this subscriber number the Mobile ID option is not yet ordered
+# [D] Unknown or inactive user
+mss_105 = To be able to use Mobile ID, it has to be ordered and activated first. Please visit the Mobile ID Portal of your Mobile Network Operator.
+
+# the transaction has timed out
+# [R] Please try again. If the error persists, contact your Mobile Network Operator Support Hotline.
+mss_208 = The transaction has timed out. Please try again.
+
+# there was an internal problem with the OTA subsystem
+# [R] Please try again. If the error persists, contact your Mobile Network Operator Support Hotline.
+mss_209 = The service could not contact your mobile device (bad connection...). Please try again.
+
+# the request has been cancelled by the user
+# [R] Please try again. If the error persists, contact your Mobile Network Opertor Support Hotline.
+# [S] The request has been canceled by the user.
+mss_401 = To complete the request it has to be accepted and confirmed with your Mobile ID PIN.
+
+# the user's Mobile ID PIN is blocked
+# [R] A new activation is required. Please visit the Mobile ID Portal of your Mobile Network Operator and follow the PIN forgotten link (#PortalUrl#)
+# [S] The Mobile ID PIN is blocked. Please visit #URL# to reset your PIN."
+mss_402 = Your Mobile ID PIN is blocked. Please visit your <a href="#PortalUrl#">Mobile ID Portal</a> to reset your PIN.
+
+# the Mobile ID user has been suspended
+# [R] A new activation is required. Please visit the Mobile ID Portal of your Mobile Network Operator (#PortalUrl#)
+# [S] The Mobile ID is suspended. Please visit #URL# to reactivate your Mobile ID.
+mss_403 = Your Mobile ID is suspended. Please visit <a href="#PortalUrl#">Mobile ID Portal</a> to reactivate your Mobile ID.
+
+# the subscriber number is not yet activated for Mobile ID
+# [R] A new activation is required. Please visit the Mobile ID Portal of your Mobile Network Operator (#PortalUrl#)
+# [S] The subscriber number is not yet activated for Mobile ID. Please visit #URL# to activate your Mobile ID.
+mss_404 = Your subscriber number is not yet activated for Mobile ID. Please visit <a href="#PortalUrl#">your Mobile ID Portal</a> to activate your Mobile ID.
+
+# there was already an on-going transaction of the same subscriber
+# [R] Please try again. If the error persists, contact your Mobile Network Operator Support Hotline.
+mss_406 = Error on your mobile equipment while confirming the request. Probably another signature request is already in progress. Please try again.
+
+# the certificate of the subscriber number is not valid
+# [R] A new activation is required. Please visit the Mobile ID Portal of your Mobile Network Operator (#PortalUrl#)
+# [S] The Mobile ID is no more active. Please visit #URL# to reactivate your Mobile ID.
+mss_422 = Your Mobile ID is no more active. Please visit <a href="#PortalUrl#">your Mobile ID Portal</a> to activate your Mobile ID.
+
+# the signature request was properly constructed, but end-user certificate is revoked
+mss_501 = Verification error with the confirmation. Please try again and if the error persist contact your Mobile Network Operator.
+
+# the signature request was not properly constructed
+mss_503 = Verification error with the confirmation. Please try again and if the error persist contact your Mobile Network Operator.
+
+# The serial number of your Mobile ID certificate is not registered.
+mss_-404 = Error on the Mobile ID serial number. Please contact your system administrator.
+
+# The serial number of your Mobile ID certificate differs from the registered one.
+mss_-403 = Error on the Mobile ID serial number. Please contact your system administrator.

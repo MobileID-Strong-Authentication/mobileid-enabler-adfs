@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- full mobileIdAdfs config -->
+<appConfig>
+  <!-- Config for a test environment -->
+  <mobileIdClient
+    AP_ID="mid://dev.swisscom.ch"
+    SslKeystore = "LocalMachine"
+    SslCertThumbprint ="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
+    ServiceUrlPrefix ="https://foo.net:8888/soap/services/"
+    SslRootCaCertDN ="CN=Swisscom TEST Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch"
+    PollResponseDelaySeconds = "3"
+    RequestTimeOutSeconds = "80"
+    DtbsPrefix = "Test "
+    SanitizePhoneNumber = "True"
+/>
+  <mobileIdAdfs
+    AdAttrMobile = "attr-1"
+    AdAttrMidSerialNumber = "123"
+    WebClientMaxRequest = "1"
+    SessionMaxTries ="2"
+    SessionTimeoutSeconds ="999999999"
+    SsoOnCancel = "True"
+    ShowDebugMsg = "True"
+    LoginNonceLength = "10"
+    />
+</appConfig>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mobileIdClient
+  AP_ID = "http://changeme.swisscom.ch"
+  NotUsed =""
+  LogVerbosity="100"
+  DtbsPrefix="&lt;&quot;#&gt;"
+  RequestTimeOutSeconds="99"
+  ServiceUrlPrefix="http://changeme.swisscom.ch/services"
+  SrvSideValidation="FALSE"
+  SslCertThumbprint="AB cd 1 2 "
+  SslKeystore="CurrentUser"
+  SslRootCaCertDN="CN=Some CA, C=CH"
+  EnableSubscriberInfo="true"
+  SeedApTransId=""
+  PollResponseDelaySeconds="2"
+  PollResponseIntervalSeconds="1"
+  UserSerialNumberPolicy="match, warnMisMatch, allowAbsence"
+ />

@@ -1,0 +1,38 @@
+﻿# Translated from MssError.txt, see MssError.txt for the description of syntax and semantics.
+
+mss_000 = Mobile ID kann zurzeit nicht genutzt werden. Bitte versuchen Sie es später erneut.
+
+mss_101 = Die Rufnummer ist nicht gültig.
+
+mss_105 = Mobile ID ist für diese Rufnummer noch nicht bestellt worden. Besuchen Sie das Mobile ID Portal von Ihrem Mobilfunkanbieter.
+
+mss_208 = Die Transaktion ist abgelaufen. Bitte versuchen Sie es erneut.
+
+mss_209 = Der Service konnte das mobile Endgerät nicht kontaktieren. (Schlechte Verbindung…). Bitte versuchen Sie es erneut.
+
+# [S] Der Vorgang wurde vom Nutzer abgebrochen.
+mss_401 = Um den Vorgang abzuschliessen, muss die Anfrage akzeptiert und mit Ihrem Mobile ID PIN bestätigt werden.
+
+# [S] Ihre Mobile ID PIN ist gesperrt. Besuchen Sie #URL# um Ihren PIN zurückzusetzen.
+mss_402 = Ihre Mobile ID PIN ist gesperrt. Besuchen Sie <a href="#PortalUrl#">das Portal Ihres Mobilfunkbetreibers</a> um Ihren PIN zurückzusetzen.
+
+# [S] Ihre Mobile ID ist suspendiert. Besuchen Sie #URL# um die Mobile ID zu reaktivieren.
+mss_403 = Ihre Mobile ID ist suspendiert. Besuchen Sie <a href="#PortalUrl#">das Portal Ihres Mobilfunkbetreibers</a> um die Mobile ID zu reaktivieren.
+
+# [S] Die Rufnummer ist nicht für Mobile ID aktiviert. Besuchen Sie #URL# um die Mobile ID zu aktivieren.
+mss_404 = Ihre Rufnummer ist nicht für Mobile ID aktiviert. Besuchen Sie <a href="#PortalUrl#">das Portal Ihres Mobilfunkbetreibers</a> um die Mobile ID zu aktivieren.
+
+mss_406 = Fehler auf dem mobilen Endgerät, wahrscheinlich ist eine andere Signatur Anfrage bereits im Gange. Bitte versuchen Sie es erneut.
+
+# [S] Ihre Mobile ID ist nicht mehr aktiv. Besuchen Sie #URL# um die Mobile ID zu reaktivieren.
+mss_422 = Ihre Mobile ID ist nicht mehr aktiv. Besuchen Sie <a href="#PortalUrl#">das Portal Ihres Mobilfunkbetreibers</a> um die Mobile ID zu reaktivieren.
+
+mss_501 = Fehler beim Prüfen der Bestätigung. Bitte versuchen Sie es erneut und wenn der Fehler bestehen bleibt, kontaktieren Sie Ihren Mobilfunkanbieter.
+
+mss_503 = Fehler beim Prüfen der Bestätigung. Bitte versuchen Sie es erneut und wenn der Fehler bestehen bleibt, kontaktieren Sie Ihren Mobilfunkanbieter.
+
+# Die Serial Nummer von Ihrem Mobile ID Zertifikat ist nicht registriert.
+mss_-404 = Fehler in der Mobile ID Seriennummer. Bitte kontaktieren Sie Ihren Systemadministrator.
+
+# Die Serial Nummer von Ihrem Mobile ID Zertifikat stimmt nicht mit der registrierten Nummer überein.
+mss_-403 = Fehler in der Mobile ID Seriennummer. Bitte kontaktieren Sie Ihren Systemadministrator.

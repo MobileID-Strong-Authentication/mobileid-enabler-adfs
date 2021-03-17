@@ -1,0 +1,38 @@
+﻿# Translated from MssError.txt, see MssError.txt for the description of syntax and semantics.
+
+mss_000 = Mobile ID ne peut actuellement pas être utilisée. Veuillez réessayer ultérieurement.
+
+mss_101 = Le numéro de mobile n'est pas valide.
+
+mss_105 = Mobile ID n'a pas encore été commandée ou n'est pas activée pour ce numéro d'appel. Veuillez visiter le portail votre opérateur de téléphonie mobile pour activer Mobile ID.
+
+mss_208 = La transaction a expirée. Veuillez réessayer.
+
+mss_209 = Le service n'a pas pu contacter le mobile de l'utilisateur (mauvaise connexion...). Veuillez réessayer.
+
+# TODO: translate "To complete the request it has to be accepted and confirmed with your Mobile ID PIN."
+mss_401 = La requête a été annulée par l'utilisateur.
+
+# [S] Votre PIN Mobile ID est bloqué. Veuillez visiter #URL# pour réinitialiser le code PIN.
+mss_402 = Votre PIN Mobile ID est bloqué. Veuillez visiter <a href="#PortalUrl#">le portail votre opérateur de téléphonie mobile</a> pour réinitialiser le code PIN.
+
+# [S] Votre Mobile ID est suspendue. Veuillez visiter #URL# pour réactiver Mobile ID.
+mss_403 = Votre Mobile ID est suspendue. Veuillez visiter <a href="#PortalUrl#">le portail votre opérateur de téléphonie mobile</a> pour réactiver Mobile ID.
+
+# [S] Pour votre numéro d'appel la Mobile ID n'est pas activée. Veuillez visiter #URL# pour activer Mobile ID.
+mss_404 = Pour votre numéro d'appel la Mobile ID n'a pas été activée. Veuillez visiter <a href="#PortalUrl#">le portail votre opérateur de téléphonie mobile</a> pour activer Mobile ID.
+
+mss_406 = Erreur sur le mobile de l'utilisateur, probablement une autre demande de signature est déjà en cours. Veuillez réessayer.
+
+# [S] Votre Mobile ID n'est plus active. Veuillez visiter #URL# pour réactiver Mobile ID.
+mss_422 = Votre Mobile ID n'est plus active. Veuillez visiter <a href="#PortalUrl#">le portail votre opérateur de téléphonie mobile</a> pour activer Mobile ID.
+
+mss_501 = Erreur lors de la vérification de la requête. Veuillez réessayer et si l'erreur persiste contactez votre opérateur mobile.
+
+mss_503 = Erreur lors de la vérification de la requête. Veuillez réessayer et si l'erreur persiste contactez votre opérateur mobile.
+
+# The serial number of your Mobile ID certificate is not registered.
+mss_-404 = Erreur sur le numéro de série de la Mobile ID. Contactez votre administrateur système.
+
+# The serial number of your Mobile ID certificate differs from the registered one.
+mss_-403 = Erreur sur le numéro de série de la Mobile ID. Contactez votre administrateur système.

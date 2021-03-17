@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <soapenv:Fault>
+      <soapenv:Code>
+        <soapenv:Value>soapenv:Receiver</soapenv:Value>
+        <soapenv:Subcode xmlns:mss="http://uri.etsi.org/TS102204/v1.1.2#" xmlns:fi="http://mss.ficom.fi/TS102204/v1.0.0#">
+          <soapenv:Value>mss:_404</soapenv:Value>
+        </soapenv:Subcode>
+      </soapenv:Code>
+      <soapenv:Reason>
+        <soapenv:Text xml:lang="en">NO_KEY_FOUND</soapenv:Text>
+      </soapenv:Reason>
+      <soapenv:Node>http://mid.swisscom.ch/</soapenv:Node>
+      <soapenv:Role>http://uri.etsi.org/TS102207/v1.1.3#role_HomeMSSP</soapenv:Role>
+      <soapenv:Detail>
+        <ns1:detail xmlns:ns1="http://kiuru.methics.fi/mssp">Fault received from URL: https://b-hmssp.prod.mobileid:8443/soap/services/MSS_SignaturePort
+At node: http://b-ae.prod.mobileid/</ns1:detail>
+        <ns1:detail xmlns:ns1="http://kiuru.methics.fi/mssp">Mobile user account has state REGISTERED</ns1:detail>
+      </soapenv:Detail>
+    </soapenv:Fault>
+  </soapenv:Body>
+</soapenv:Envelope>
