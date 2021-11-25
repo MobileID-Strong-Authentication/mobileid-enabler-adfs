@@ -2,8 +2,8 @@
 #define MyAppName "Mobile ID Authentication Provider for ADFS"
 #define MyAppShortName "Mobile ID for ADFS"
 #define MyAppAbb "MobileIdAdfs"
-#define MyAppVersion "1.2"
-#define MyAppFullVersion "1.2.0.0"
+#define MyAppVersion "1.3"
+#define MyAppFullVersion "1.3.0.0"
 
 [Setup]
 AppId={{609C382B-1D2D-40F5-B2ED-742C603AD024}
@@ -14,7 +14,7 @@ AppPublisherURL=https://www.swisscom.com/
 AppSupportURL=https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs
 AppUpdatesURL=https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/tree/main/binaries
 ; AppUpdatesURL=http://goo.gl/cp1BCU
-AppCopyright=(C) 2015-2016, Swisscom Ltd.
+AppCopyright=(C) 2015-2021, Swisscom Ltd.
 DefaultDirName={pf}\{#MyAppAbb}\v{#MyAppVersion}
 DefaultGroupName={#MyAppName}
 LicenseFile=..\LICENSE

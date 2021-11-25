@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MobileId.Adfs
 {
-    [EventSource(Name = "Swisscom-MobileID-Adfs12")]
+    [EventSource(Name = "Swisscom-MobileID-Adfs13")]
     public sealed class Logging : EventSource
     {
         static readonly public Logging Log = new Logging();

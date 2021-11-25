@@ -10,7 +10,7 @@ namespace MobileId.Adfs
 {
     class AuthenticationAdapterMetadata : IAuthenticationAdapterMetadata
     {
-        public static readonly string VERSION = "1.2";
+        public static readonly string VERSION = "1.3";
 
         // Returns the name of the provider that will be shown in the AD FS management UI (not visible to end users)
         public string AdminName

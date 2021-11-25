@@ -6,7 +6,7 @@ using System.Text;
 namespace MobileId
 {
 
-    [EventSource(Name = "Swisscom-MobileID-Client12")]
+    [EventSource(Name = "Swisscom-MobileID-Client13")]
     public sealed class Logging : EventSource
     {
         static readonly public Logging Log = new Logging();

@@ -1,3 +1,6 @@
+v1.3.0.0 (2021-11-25):
+ * Tls Verson as configuration parameter
+
 v1.2.0.0 (2016-02-25):
 * Add support for sanitisation of mobile numbers (github issue #12).
 * Improve logging: 
