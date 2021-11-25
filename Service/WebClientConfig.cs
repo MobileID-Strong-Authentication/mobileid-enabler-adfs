@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -39,6 +40,7 @@ namespace MobileId
         bool _sanitizePhoneNumber = false;
         Regex _sanitizePhoneNumberRegex = new Regex("\\D", RegexOptions.Compiled, TimeSpan.FromSeconds(1.0));
         string _sanitizePhoneNumberReplacement = "";
+        SecurityProtocolType _securityProtocolType = SecurityProtocolType.Tls;
 
         public static WebClientConfig CreateConfigFromFile(string fileName)
         {
@@ -118,8 +120,10 @@ namespace MobileId
                             if ((s = xml["SanitizePhoneNumberReplacement"]) != null)
                                 cfg.SanitizePhoneNumberReplacement = s;
                         };
+                        if (!string.IsNullOrWhiteSpace(s = xml["SecurityProtocolType"]))
+                            cfg.SecurityProtocolType = (SecurityProtocolType)Enum.Parse(typeof(SecurityProtocolType), s, true);
                         // TODO: update on change of properties
-                        
+
                         break;
                     }
                 }
@@ -305,6 +309,15 @@ namespace MobileId
             set { _sanitizePhoneNumberReplacement = value; }
         }
 
+        /// <summary>
+        /// The TLS Version for the communication.
+        /// </summary>
+        public SecurityProtocolType SecurityProtocolType
+        {
+            get { return _securityProtocolType; }
+            set { _securityProtocolType = value; }
+        }
+        
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(768);  // TODO: update on change
@@ -329,7 +342,8 @@ namespace MobileId
             sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);
             sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
-            sb.Append("\"; UserSerialNumberPolicy:\"").Append(_userSericalNumberPolicy);
+            sb.Append("\"; UserSerialNumberPolicy:").Append(_userSericalNumberPolicy);
+            sb.Append("; SecurityProtocolType:").Append(_securityProtocolType);
             sb.Append("\"}");
             return sb.ToString();
 
