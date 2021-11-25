@@ -74,14 +74,8 @@ You also need the certificate of the Certificate Authority (*CA*) for the MID se
    Click `OK`.
 
 1.2.5. Verify the SSL/TLS connectivity:
-   Use "Internet Explorer" (version 10 & 11 are tested) to connect to the URL
-   https://mobileid.swisscom.com/soap/services/MSS_ProfilePort
-   IE should display a `Confirm Certificate` dialog for picking up the client certificate and then the text
-
-`````
-   MSS_ProfilePort
-   Hi there, ...
-`````
+   Use a browser such as IE to connect to the URL https://mobileid.swisscom.com
+   The browser should display a HTTP 404 / NOT FOUND. It means that SSL/TLS connectivity was successful. Because the browser is not sending a valid SOAP request (missing client certificate for authentication) a HTTP 404 is returned by the Mobile ID server.
 
 ### Step 2: Configuration of Mobile ID Authentication Provider
 
