@@ -5,7 +5,7 @@
 set ISCC=ISCC.exe
 set b=..\binaries
 set /P PFXPass=Enter Coder Signer Password (no white space, '"', '^', '$'): 
-set sign=signtool.exe sign /f codesigner.pfx /p %PFXPass% /fd SHA256 /t http://timestamp.verisign.com/scripts/timstamp.dll
+set sign=signtool.exe sign /f codesigner.pfx /p %PFXPass% /fd SHA256 /t http://timestamp.digicert.com
 
 del /Q %b%\*.psm1
 copy ..\Admin\*.psm1 %b%
@@ -14,7 +14,7 @@ copy ..\Admin\*.psm1 %b%
 %sign% %b%\MobileId.ClientService.dll %b%\MobileId.Adfs.AuthnAdapter.dll %b%\*.psm1
 
 for %%i in (signtool.exe) do set psigntool=%%~dp$PATH:i
-%ISCC% "/Ssigntool=$q%psigntool%signtool.exe$q sign /f %~dp0codesigner.pfx /fd SHA256 /t http://timestamp.verisign.com/scripts/timstamp.dll $p" midadfs.iss
+%ISCC% "/Ssigntool=$q%psigntool%signtool.exe$q sign /f %~dp0codesigner.pfx /fd SHA256 /t http://timestamp.digicert.com $p" midadfs.iss
 
 set PFXPass=blank
 set sign=blank

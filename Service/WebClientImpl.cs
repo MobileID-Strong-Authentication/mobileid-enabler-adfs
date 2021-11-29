@@ -751,7 +751,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
             }
 
             // prepare connection
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;    // TODO: make TLS version configurable
+            ServicePointManager.SecurityProtocol = _cfg.SecurityProtocolType;
             HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(_cfg.ServiceUrlPrefix + soapPortName + "Port");
             // TODO: add HTTP proxy support
             httpReq.ClientCertificates.Add(sslClientCert);
