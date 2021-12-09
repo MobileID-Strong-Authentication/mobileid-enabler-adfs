@@ -1,3 +1,6 @@
+v1.3.1.0 (2021-12-09)
+ * Normalize mobile number, remove "-" and whitespaces.
+
 v1.3.0.0 (2021-11-25):
  * Tls Verson as configuration parameter
 

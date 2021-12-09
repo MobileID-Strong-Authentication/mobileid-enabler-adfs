@@ -51,6 +51,10 @@ namespace ServiceTest
                 Assert.AreEqual("PhoneNumberIsIllFormed: 'garbarge'", e.Message, "Expect PhoneNumberIsIllFormed on garbarge PhoneNumber");
             }
 
+
+            dto.PhoneNumber = "+41-79-123 45 67";
+            Assert.AreEqual("+41791234567", dto.PhoneNumber, "dto.PhoneNumber");
+
             dto.PhoneNumber = "+41791234567";
             Assert.AreEqual("+41791234567", dto.PhoneNumber, "dto.PhoneNumber");
             Assert.IsFalse(dto.IsComplete(), "dto(ApId,PhoneNumber) incomplete");
