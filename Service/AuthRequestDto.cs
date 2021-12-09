@@ -68,8 +68,10 @@ namespace MobileId
             set
             {
                 if (string.IsNullOrEmpty(value) ) throw new ArgumentNullException("PhoneNumberIsNullOrEmpty");
-                if (!Regex.Match(value, @"^\+?\d{7,15}$").Success) throw new ArgumentException("PhoneNumberIsIllFormed: '" + value + "'");
-                _phoneNumber = value;
+
+                string normalizedValue = value.Replace("-", string.Empty).Replace(" ", string.Empty);
+                if (!Regex.Match(normalizedValue, @"^\+?\d{7,15}$").Success) throw new ArgumentException("PhoneNumberIsIllFormed: '" + normalizedValue + "'");
+                _phoneNumber = normalizedValue;
             }
         }
 
