@@ -28,6 +28,7 @@ namespace MobileId
         string _dtbsPrefix = "";
         bool _srvSideValidation = false;
         int _requestTimeOutSeconds = 80;
+        string _signatureProfile = "http://mid.swisscom.ch/MID/v1/AuthProfile1";
         string _seedApTransId = "Some ASCII text to be used to build the unique AP_TransId in request";
         bool _enableSubscriberInfo = false;
         bool _ignoreUserSn = false;
@@ -90,6 +91,7 @@ namespace MobileId
                         if (!string.IsNullOrWhiteSpace(s = xml["RequestTimeOutSeconds"]))
                             cfg.RequestTimeOutSeconds = int.Parse(s);
                         cfg.ServiceUrlPrefix = xml["ServiceUrlPrefix"];
+                        cfg.SignatureProfile = xml["SignatureProfile"];
                         if (!string.IsNullOrEmpty(s = xml["SrvSideValidation"]))
                             cfg.SrvSideValidation = bool.Parse(s);
                         cfg.SslCertThumbprint = xml["SslCertThumbprint"];
@@ -171,6 +173,13 @@ namespace MobileId
                 }
             }
         }
+
+        [ConfigurationProperty("SignatureProfile", IsRequired = false, DefaultValue = "http://mid.swisscom.ch/MID/v1/AuthProfile1")]
+        public string SignatureProfile {
+            get { return _signatureProfile; }
+            set { if (!string.IsNullOrEmpty(value)) _signatureProfile = value; }
+        }
+        
 
         [ConfigurationProperty("SslCertThumbprint", IsRequired = true, DefaultValue = "CurrentUser")]
         public string SslCertThumbprint {
@@ -337,6 +346,7 @@ namespace MobileId
             sb.Append("\"; SanitizePhoneNumberReplacement: \"").Append(_sanitizePhoneNumberReplacement);
             sb.Append("\"; SeedApTransId:\"").Append(_seedApTransId);
             sb.Append("\"; ServiceUrlPrefix=\"").Append(_serviceUrlPrefix);
+            sb.Append("\"; SignatureProfile=\"").Append(_signatureProfile);
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
             sb.Append("; SslKeystore:").Append(_sslKeyStore);
             sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);

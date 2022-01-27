@@ -53,7 +53,7 @@ namespace MobileId
           <mss:MSSP_Info><mss:MSSP_ID><mss:URI>http://mid.swisscom.ch/</mss:URI></mss:MSSP_ID></mss:MSSP_Info>
           <mss:MobileUser><mss:MSISDN>{4}</mss:MSISDN></mss:MobileUser>
           <mss:DataToBeSigned MimeType=""text/plain"" Encoding=""UTF-8"">{5}</mss:DataToBeSigned>
-          <mss:SignatureProfile><mss:mssURI>http://mid.swisscom.ch/MID/v1/AuthProfile1</mss:mssURI></mss:SignatureProfile>
+          <mss:SignatureProfile><mss:mssURI>{10}</mss:mssURI></mss:SignatureProfile>
           <mss:AdditionalServices>
             {6}
             <mss:Service><mss:Description><mss:mssURI>http://mss.ficom.fi/TS102204/v1.0.0#userLang</mss:mssURI></mss:Description><fi:UserLang>{7:G}</fi:UserLang></mss:Service>
@@ -80,7 +80,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
 <mss:MSSP_Info><mss:MSSP_ID><mss:URI>http://mid.swisscom.ch/</mss:URI></mss:MSSP_ID></mss:MSSP_Info>
 <mss:MobileUser><mss:MSISDN>{4}</mss:MSISDN></mss:MobileUser>
 <mss:DataToBeSigned MimeType=""text/plain"" Encoding=""UTF-8"">{5}</mss:DataToBeSigned>
-<mss:SignatureProfile><mss:mssURI>http://mid.swisscom.ch/MID/v1/AuthProfile1</mss:mssURI></mss:SignatureProfile><mss:AdditionalServices>
+<mss:SignatureProfile><mss:mssURI>{10}</mss:mssURI></mss:SignatureProfile><mss:AdditionalServices>
 {6}<mss:Service><mss:Description><mss:mssURI>http://mss.ficom.fi/TS102204/v1.0.0#userLang</mss:mssURI></mss:Description><fi:UserLang>{7:G}</fi:UserLang></mss:Service>
 {8}</mss:AdditionalServices></mss:MSS_SignatureReq></MSS_Signature></soapenv:Body></soapenv:Envelope>"
             #endregion
@@ -95,6 +95,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 , req.UserLanguage
                 , (_cfg.EnableSubscriberInfo ? @"<mss:Service><mss:Description><mss:mssURI>http://mid.swisscom.ch/as#subscriberInfo</mss:mssURI></mss:Description></mss:Service>" : "")
                 , (async ? "asynchClientServer" : "synch")
+                , (_cfg.SignatureProfile)
             );
         }
 

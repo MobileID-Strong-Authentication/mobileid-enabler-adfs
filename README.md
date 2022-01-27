@@ -111,6 +111,7 @@ while the element `mobileIdAdfs` specifies the integration of Mobile ID with ADF
   + `SanitizePhoneNumberPattern`: Only effective when `SanitizePhoneNumber` is true. This parameter is the regular expression for matching a pattern in phone number. Default: `\D`
   + `SanitizePhoneNumberReplacement`: Only effective when `SanitizePhoneNumber` is true. This parameter is the replace string for matched pattern defined by `SanitizePhoneNumberPattern`. Default: ""
   + `SecurityProtocolType`: The TLS Version for Mobile ID connectivity. The following Values are allowed: "Tls", "Tls11", "Tls12", "Tls13". Default: "Tls" for Tls Version 1.0
+  + `SignatureProfile`: The signature profile value for authentication requests. Default: "http://mid.swisscom.ch/MID/v1/AuthProfile1"
 
 * Element `mobileIdAdfs`:
   + `AdAttrMobile`: Attribute name of AD user object for the mobile number. The attribute should have exactly one value. Default: `mobile`.
