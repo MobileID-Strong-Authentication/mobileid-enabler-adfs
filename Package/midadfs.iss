@@ -3,7 +3,7 @@
 #define MyAppShortName "Mobile ID for ADFS"
 #define MyAppAbb "MobileIdAdfs"
 #define MyAppVersion "1.3"
-#define MyAppFullVersion "1.3.1.0"
+#define MyAppFullVersion "1.3.2.0"
 
 [Setup]
 AppId={{609C382B-1D2D-40F5-B2ED-742C603AD024}
@@ -67,6 +67,7 @@ Source: "..\Admin\unregister_etw.ps1"; DestDir: "{app}"; Flags: ignoreversion un
 Source: "..\Admin\unregister_etw.cmd"; DestDir: "{app}"; Flags: ignoreversion uninsneveruninstall
 Source: "..\certs\mobileid-ca-ssl.crt"; DestDir: "{app}\certs"
 Source: "..\certs\codesigning-swisscom.crt"; DestDir: "{app}\certs"
+Source: "..\certs\Swisscom_Root_CA_2_der.crt"; DestDir: "{app}\certs"
 Source: "..\3RD_PARTY.md"; DestDir: "{app}\license"
 Source: "..\LICENSE"; DestDir: "{app}\license"; DestName: "MobileId_LICENSE.txt"
 Source: "install_midadfs.cmd"; DestDir: "{app}"; Flags: deleteafterinstall
