@@ -22,6 +22,7 @@ namespace MobileId
 
         // optional input from caller
         string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
+        string _sslCaCertFiles = string.Empty;
         StoreLocation _sslKeyStore = StoreLocation.CurrentUser;
         UserLanguage _userLanguageDefault = UserLanguage.en;
         string _serviceUrlPrefix = "https://mobileid.swisscom.com/soap/services/";
@@ -198,6 +199,15 @@ namespace MobileId
             set { if (! string.IsNullOrEmpty(value)) _sslCaCertDN = value;  }
         }
 
+        /// <summary>
+        /// Filename of Root CA Certificate in the CA Chain of the SSL Server Certificate for Mobile ID Service. If the Certificate is not loaded from the 
+        /// </summary>
+        [ConfigurationProperty("SslRootCaCertFiles", IsRequired = false, DefaultValue = "")]
+        public string SslRootCaCertFiles{
+            get { return _sslCaCertFiles; }
+            set { if (! string.IsNullOrEmpty(value)) _sslCaCertFiles = value; }
+        }
+
         public string ServiceUrlPrefix {
             get { return _serviceUrlPrefix; }
             set { if (! string.IsNullOrEmpty(value)) _serviceUrlPrefix = value;}
@@ -351,6 +361,7 @@ namespace MobileId
             sb.Append("; SslKeystore:").Append(_sslKeyStore);
             sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);
             sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
+            sb.Append("\"; SslRootCaCertFiles:\"").Append(_sslCaCertFiles);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
             sb.Append("\"; UserSerialNumberPolicy:").Append(_userSericalNumberPolicy);
             sb.Append("; SecurityProtocolType:").Append(_securityProtocolType);
