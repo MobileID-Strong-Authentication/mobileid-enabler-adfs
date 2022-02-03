@@ -100,6 +100,8 @@ namespace MobileId
                             cfg.SslKeystore = Util.ParseKeyStoreLocation(s);
                         if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
                             cfg.SslRootCaCertDN = s;
+                        if (!string.IsNullOrWhiteSpace(s = xml["SslRootCaCertFiles"]))
+                            cfg.SslRootCaCertFiles = s;
                         if (!string.IsNullOrEmpty(s = xml["EnableSubscriberInfo"]))
                             cfg.EnableSubscriberInfo = Boolean.Parse(s);
                         cfg.SeedApTransId = xml["SeedApTransId"];
@@ -125,7 +127,6 @@ namespace MobileId
                         };
                         if (!string.IsNullOrWhiteSpace(s = xml["SecurityProtocolType"]))
                             cfg.SecurityProtocolType = (SecurityProtocolType)Enum.Parse(typeof(SecurityProtocolType), s, true);
-                        // TODO: update on change of properties
 
                         break;
                     }

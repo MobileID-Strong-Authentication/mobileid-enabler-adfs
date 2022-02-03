@@ -696,7 +696,6 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
             }
 
             // retrieve CA cert from LocalMachine or CurrentUser
-            //ToDo: paba - root cert auch von file nehmen
             sslCACert = null;
             foreach (StoreLocation sl in new StoreLocation[] { StoreLocation.LocalMachine, StoreLocation.CurrentUser })
             {
@@ -1143,8 +1142,8 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
             };
 
             SignedCms signedCms = new SignedCms();
-            try
-            {
+            bool disableChainValidation = _cfg.DisableSignatureCertValidation;
+            try {
                 signedCms.Decode(signature);
                 byte[] dtbs_cms = signedCms.ContentInfo.Content;
                 if (Encoding.UTF8.GetString(dtbs_cms) != dataToBeSigned) {
@@ -1158,61 +1157,61 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
 
                 //Check certificate trust
                 X509Certificate2Collection signatureTrustStore = GetSignatureTruststore();
-                if (signatureTrustStore.Count > 0) {
+                //Check cutom-chain if check not disable and files in Truststore
+                if (!disableChainValidation && signatureTrustStore.Count > 0) {
                     if (signerCert == null) {
                         throw new SecurityException($"Could not retrieve signer certificate from signature. signature:='{signature}'");
                     }
-                    //Initializes a new instance of the X509Chain class specifying a value that indicates whether the machine context should be used.
-                    X509Chain chain = new X509Chain(false);
+                    //set to true, because chain.validation is made custom
+                    disableChainValidation = true;
+
+                    X509Chain chain = new X509Chain();
                     chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                    //chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-                    //chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
-                    //chain.ChainPolicy.CustomTrustStore.AddRange(signatureTrustStore);
+                    chain.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+
                     chain.ChainPolicy.ExtraStore.AddRange(signatureTrustStore);
 
-                    if (chain.Build(signerCert)) {
-                        logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement,
-                            "Certificate trust validation succeeded");
+                    var isValid = chain.Build(signerCert);
+                    var chainRoot = chain.ChainElements[chain.ChainElements.Count - 1].Certificate;
+                    //if not valid check if Root-Certificate in custom signatureTrustStore
+                    //get last chain element that should contain root CA certificate but this may not be the case in partial chains
+                    if (isValid || (chain.ChainStatus.First().Status == X509ChainStatusFlags.UntrustedRoot && signatureTrustStore.Contains(chainRoot))) {
+                        if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Certificate trust validation succeeded");
                     } else {
-                        logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "Certificate trust validation failed");
-                        foreach (X509ChainStatus status in chain.ChainStatus) {
-                            //_logger.LogError("Chain Status: {0}, {1}", status.Status, status.StatusInformation);
-                        }
+                        if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Certificate trust validation failed");
                         throw new SecurityException($"{chain.ChainStatus[0].Status}: {chain.ChainStatus[0].StatusInformation}");
                     }
                 } else {
-                    //_logger.LogWarning("No MobileId trust store configured. Certificate root trust is not checked.");
+                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignatureCertValidation)} configured. Certificate root trust is not checked.");
                 }
 
                 // Check signature
-                try {
-                    signedCms.CheckSignature(_cfg.DisableSignatureCertValidation);
-                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "Signature validation succeeded");
-                } catch (CryptographicException ex) {
-                    //_logger.LogError(ex, "Signature validation failed");
-                    throw new SecurityException("MID certificate verification failed", ex);
+                if (signatureTrustStore.Count > 0) {
+                    signedCms.CheckSignature(signatureTrustStore, disableChainValidation);
+                } else {
+                    signedCms.CheckSignature(disableChainValidation);
                 }
 
-                // Check signature payload
-                // ToDo: paba - in ursprung nicht geprüft
-                byte[] contentInfo = signedCms.ContentInfo.Content;
-                string signedData = Encoding.UTF8.GetString(contentInfo);
-                if (signedData != dataToBeSigned) {
-                    //_logger.LogError("Signature payload verification failed");
-                    throw new SecurityException("MID signature verification failed");
-                } else {
-                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "Signature payload verification succeeded");
-                }
-                
-                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='" 
+                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='"
                     + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignatureCertValidation);
                 if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignatureCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
+
+                // Check signature payload
+                string signedData = Encoding.UTF8.GetString(dtbs_cms);
+                if (signedData != dataToBeSigned) {
+                    logger.TraceEvent(TraceEventType.Error, (int)EventId.Service, "DataToBeSigned differs: req='" + dataToBeSigned
+                        + "', rsp_hex=" + BitConverter.ToString(dtbs_cms));
+                    Logging.Log.ServerResponseMessageError("isValidSignature", "dataToBeSigned differs: req='" + dataToBeSigned
+                        + "', rsp_hex=" + BitConverter.ToString(dtbs_cms));
+                    return false;
+                } else {
+                    if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Signature payload verification succeeded");
+                }
+
                 return true;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 logger.TraceEvent(TraceEventType.Error, (int)EventId.Service, "INVALID_SIGNATURE: " + e.Message);
-                Logging.Log.ServerResponseMessageError("InvalidSiganture", e.Message);
+                Logging.Log.ServerResponseMessageError("InvalidSignature", e.Message);
                 return false;
             }
         }
@@ -1232,12 +1231,9 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
             X509Certificate2Collection trustStore = new X509Certificate2Collection();
             var list = _cfg.SslRootCaCertFiles.Split(';').Select(s => s.Trim());
             foreach (string singleFile in list) {
-                string certPath =
-                    $"{Path.DirectorySeparatorChar}certs{Path.DirectorySeparatorChar}{singleFile}";
-
                 // Load the certificate into an X509Certificate object.
-                X509Certificate cert = new X509Certificate();
-                cert.Import(certPath);
+                X509Certificate2 cert = new X509Certificate2();
+                cert.Import(singleFile);
                 trustStore.Add(cert);
             }
 
