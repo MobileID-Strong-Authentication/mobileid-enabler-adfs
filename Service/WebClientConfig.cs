@@ -22,12 +22,14 @@ namespace MobileId
 
         // optional input from caller
         string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
+        string _sslCaCertFiles = string.Empty;
         StoreLocation _sslKeyStore = StoreLocation.CurrentUser;
         UserLanguage _userLanguageDefault = UserLanguage.en;
         string _serviceUrlPrefix = "https://mobileid.swisscom.com/soap/services/";
         string _dtbsPrefix = "";
         bool _srvSideValidation = false;
         int _requestTimeOutSeconds = 80;
+        string _signatureProfile = "http://mid.swisscom.ch/MID/v1/AuthProfile1";
         string _seedApTransId = "Some ASCII text to be used to build the unique AP_TransId in request";
         bool _enableSubscriberInfo = false;
         bool _ignoreUserSn = false;
@@ -90,6 +92,7 @@ namespace MobileId
                         if (!string.IsNullOrWhiteSpace(s = xml["RequestTimeOutSeconds"]))
                             cfg.RequestTimeOutSeconds = int.Parse(s);
                         cfg.ServiceUrlPrefix = xml["ServiceUrlPrefix"];
+                        cfg.SignatureProfile = xml["SignatureProfile"];
                         if (!string.IsNullOrEmpty(s = xml["SrvSideValidation"]))
                             cfg.SrvSideValidation = bool.Parse(s);
                         cfg.SslCertThumbprint = xml["SslCertThumbprint"];
@@ -97,6 +100,8 @@ namespace MobileId
                             cfg.SslKeystore = Util.ParseKeyStoreLocation(s);
                         if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
                             cfg.SslRootCaCertDN = s;
+                        if (!string.IsNullOrWhiteSpace(s = xml["SslRootCaCertFiles"]))
+                            cfg.SslRootCaCertFiles = s;
                         if (!string.IsNullOrEmpty(s = xml["EnableSubscriberInfo"]))
                             cfg.EnableSubscriberInfo = Boolean.Parse(s);
                         cfg.SeedApTransId = xml["SeedApTransId"];
@@ -122,7 +127,6 @@ namespace MobileId
                         };
                         if (!string.IsNullOrWhiteSpace(s = xml["SecurityProtocolType"]))
                             cfg.SecurityProtocolType = (SecurityProtocolType)Enum.Parse(typeof(SecurityProtocolType), s, true);
-                        // TODO: update on change of properties
 
                         break;
                     }
@@ -172,6 +176,13 @@ namespace MobileId
             }
         }
 
+        [ConfigurationProperty("SignatureProfile", IsRequired = false, DefaultValue = "http://mid.swisscom.ch/MID/v1/AuthProfile1")]
+        public string SignatureProfile {
+            get { return _signatureProfile; }
+            set { if (!string.IsNullOrEmpty(value)) _signatureProfile = value; }
+        }
+        
+
         [ConfigurationProperty("SslCertThumbprint", IsRequired = true, DefaultValue = "CurrentUser")]
         public string SslCertThumbprint {
             get { return _sslCertThumbprint; }
@@ -187,6 +198,15 @@ namespace MobileId
         public string SslRootCaCertDN {
             get { return _sslCaCertDN; }
             set { if (! string.IsNullOrEmpty(value)) _sslCaCertDN = value;  }
+        }
+
+        /// <summary>
+        /// Filename of Root CA Certificate in the CA Chain of the SSL Server Certificate for Mobile ID Service. If the Certificate is not loaded from the 
+        /// </summary>
+        [ConfigurationProperty("SslRootCaCertFiles", IsRequired = false, DefaultValue = "")]
+        public string SslRootCaCertFiles{
+            get { return _sslCaCertFiles; }
+            set { if (! string.IsNullOrEmpty(value)) _sslCaCertFiles = value; }
         }
 
         public string ServiceUrlPrefix {
@@ -337,10 +357,12 @@ namespace MobileId
             sb.Append("\"; SanitizePhoneNumberReplacement: \"").Append(_sanitizePhoneNumberReplacement);
             sb.Append("\"; SeedApTransId:\"").Append(_seedApTransId);
             sb.Append("\"; ServiceUrlPrefix=\"").Append(_serviceUrlPrefix);
+            sb.Append("\"; SignatureProfile=\"").Append(_signatureProfile);
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
             sb.Append("; SslKeystore:").Append(_sslKeyStore);
             sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);
             sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
+            sb.Append("\"; SslRootCaCertFiles:\"").Append(_sslCaCertFiles);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
             sb.Append("\"; UserSerialNumberPolicy:").Append(_userSericalNumberPolicy);
             sb.Append("; SecurityProtocolType:").Append(_securityProtocolType);

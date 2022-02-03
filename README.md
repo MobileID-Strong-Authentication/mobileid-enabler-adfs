@@ -105,12 +105,14 @@ while the element `mobileIdAdfs` specifies the integration of Mobile ID with ADF
   + `SslKeystore`: Store location of certificate/key used for Mobile ID connectivity. For ADFS, the value should be usually `LocalMachine`. Default: `CurrentUser`
   + `SslCertThumbprint`: The SHA1 Thumbprint of certificate used for Mobile ID connectivity. The thumbprint can be read out of the `Certificate` GUI (i.e. double-click the certificate file), or with a PowerShell cmdlet like `Get-ChildItem -Path cert:\\LocalMachine\My`. Mandatory.
   + `SslRootCaCertDN`: Distinguished Name of the Root Certificate in the certificate chain of Mobile ID servers. Default: "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch"
+  + `SslRootCaCertFiles`: Additional certificate files
   + `UserSerialNumberPolicy`: Flags that determine how the serial number in user’s certificate is used in the authentication.
      Supported flags are warnMismatch(1), allowAbsence(2), allowMismatch (4). Default: "6"
   + `SanitizePhoneNumber`: If this parameter is `true`, phone numbers read from the attribute store are transformed before use in Mobile ID calls. The transformation is specified by `SanitizePhoneNumberPattern` and `SanitizePhoneNumberReplacement`. Default: remove all non-digits
   + `SanitizePhoneNumberPattern`: Only effective when `SanitizePhoneNumber` is true. This parameter is the regular expression for matching a pattern in phone number. Default: `\D`
   + `SanitizePhoneNumberReplacement`: Only effective when `SanitizePhoneNumber` is true. This parameter is the replace string for matched pattern defined by `SanitizePhoneNumberPattern`. Default: ""
   + `SecurityProtocolType`: The TLS Version for Mobile ID connectivity. The following Values are allowed: "Tls", "Tls11", "Tls12", "Tls13". Default: "Tls" for Tls Version 1.0
+  + `SignatureProfile`: The signature profile value for authentication requests. Default: "http://mid.swisscom.ch/MID/v1/AuthProfile1"
 
 * Element `mobileIdAdfs`:
   + `AdAttrMobile`: Attribute name of AD user object for the mobile number. The attribute should have exactly one value. Default: `mobile`.

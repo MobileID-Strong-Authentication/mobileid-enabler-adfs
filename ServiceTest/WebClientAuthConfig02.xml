@@ -6,6 +6,7 @@
   DtbsPrefix="&lt;&quot;#&gt;"
   RequestTimeOutSeconds="99"
   ServiceUrlPrefix="http://changeme.swisscom.ch/services"
+  SignatureProfile="http://mid.swisscom.ch/MID/v1/AuthProfile1"
   SrvSideValidation="FALSE"
   SslCertThumbprint="AB cd 1 2 "
   SslKeystore="CurrentUser"

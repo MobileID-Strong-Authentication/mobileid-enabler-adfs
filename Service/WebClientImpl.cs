@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Security;
+using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -53,7 +56,7 @@ namespace MobileId
           <mss:MSSP_Info><mss:MSSP_ID><mss:URI>http://mid.swisscom.ch/</mss:URI></mss:MSSP_ID></mss:MSSP_Info>
           <mss:MobileUser><mss:MSISDN>{4}</mss:MSISDN></mss:MobileUser>
           <mss:DataToBeSigned MimeType=""text/plain"" Encoding=""UTF-8"">{5}</mss:DataToBeSigned>
-          <mss:SignatureProfile><mss:mssURI>http://mid.swisscom.ch/MID/v1/AuthProfile1</mss:mssURI></mss:SignatureProfile>
+          <mss:SignatureProfile><mss:mssURI>{10}</mss:mssURI></mss:SignatureProfile>
           <mss:AdditionalServices>
             {6}
             <mss:Service><mss:Description><mss:mssURI>http://mss.ficom.fi/TS102204/v1.0.0#userLang</mss:mssURI></mss:Description><fi:UserLang>{7:G}</fi:UserLang></mss:Service>
@@ -80,7 +83,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
 <mss:MSSP_Info><mss:MSSP_ID><mss:URI>http://mid.swisscom.ch/</mss:URI></mss:MSSP_ID></mss:MSSP_Info>
 <mss:MobileUser><mss:MSISDN>{4}</mss:MSISDN></mss:MobileUser>
 <mss:DataToBeSigned MimeType=""text/plain"" Encoding=""UTF-8"">{5}</mss:DataToBeSigned>
-<mss:SignatureProfile><mss:mssURI>http://mid.swisscom.ch/MID/v1/AuthProfile1</mss:mssURI></mss:SignatureProfile><mss:AdditionalServices>
+<mss:SignatureProfile><mss:mssURI>{10}</mss:mssURI></mss:SignatureProfile><mss:AdditionalServices>
 {6}<mss:Service><mss:Description><mss:mssURI>http://mss.ficom.fi/TS102204/v1.0.0#userLang</mss:mssURI></mss:Description><fi:UserLang>{7:G}</fi:UserLang></mss:Service>
 {8}</mss:AdditionalServices></mss:MSS_SignatureReq></MSS_Signature></soapenv:Body></soapenv:Envelope>"
             #endregion
@@ -95,6 +98,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 , req.UserLanguage
                 , (_cfg.EnableSubscriberInfo ? @"<mss:Service><mss:Description><mss:mssURI>http://mid.swisscom.ch/as#subscriberInfo</mss:mssURI></mss:Description></mss:Service>" : "")
                 , (async ? "asynchClientServer" : "synch")
+                , (_cfg.SignatureProfile)
             );
         }
 
@@ -1138,8 +1142,8 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
             };
 
             SignedCms signedCms = new SignedCms();
-            try
-            {
+            bool disableChainValidation = _cfg.DisableSignatureCertValidation;
+            try {
                 signedCms.Decode(signature);
                 byte[] dtbs_cms = signedCms.ContentInfo.Content;
                 if (Encoding.UTF8.GetString(dtbs_cms) != dataToBeSigned) {
@@ -1149,16 +1153,65 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
                         + "', rsp_hex=" + BitConverter.ToString(dtbs_cms));
                     return false;
                 };
-                signedCms.CheckSignature(_cfg.DisableSignatureCertValidation);
-                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='" 
+                X509Certificate2 signerCert = signedCms.SignerInfos[0].Certificate;
+
+                //Check certificate trust
+                X509Certificate2Collection signatureTrustStore = GetSignatureTruststore();
+                //Check cutom-chain if check not disable and files in Truststore
+                if (!disableChainValidation && signatureTrustStore.Count > 0) {
+                    if (signerCert == null) {
+                        throw new SecurityException($"Could not retrieve signer certificate from signature. signature:='{signature}'");
+                    }
+                    //set to true, because chain.validation is made custom
+                    disableChainValidation = true;
+
+                    X509Chain chain = new X509Chain();
+                    chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                    chain.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+
+                    chain.ChainPolicy.ExtraStore.AddRange(signatureTrustStore);
+
+                    var isValid = chain.Build(signerCert);
+                    var chainRoot = chain.ChainElements[chain.ChainElements.Count - 1].Certificate;
+                    //if not valid check if Root-Certificate in custom signatureTrustStore
+                    //get last chain element that should contain root CA certificate but this may not be the case in partial chains
+                    if (isValid || (chain.ChainStatus.First().Status == X509ChainStatusFlags.UntrustedRoot && signatureTrustStore.Contains(chainRoot))) {
+                        if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Certificate trust validation succeeded");
+                    } else {
+                        if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Certificate trust validation failed");
+                        throw new SecurityException($"{chain.ChainStatus[0].Status}: {chain.ChainStatus[0].StatusInformation}");
+                    }
+                } else {
+                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignatureCertValidation)} configured. Certificate root trust is not checked.");
+                }
+
+                // Check signature
+                if (signatureTrustStore.Count > 0) {
+                    signedCms.CheckSignature(signatureTrustStore, disableChainValidation);
+                } else {
+                    signedCms.CheckSignature(disableChainValidation);
+                }
+
+                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='"
                     + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignatureCertValidation);
                 if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignatureCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
+
+                // Check signature payload
+                string signedData = Encoding.UTF8.GetString(dtbs_cms);
+                if (signedData != dataToBeSigned) {
+                    logger.TraceEvent(TraceEventType.Error, (int)EventId.Service, "DataToBeSigned differs: req='" + dataToBeSigned
+                        + "', rsp_hex=" + BitConverter.ToString(dtbs_cms));
+                    Logging.Log.ServerResponseMessageError("isValidSignature", "dataToBeSigned differs: req='" + dataToBeSigned
+                        + "', rsp_hex=" + BitConverter.ToString(dtbs_cms));
+                    return false;
+                } else {
+                    if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage("Signature payload verification succeeded");
+                }
+
                 return true;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 logger.TraceEvent(TraceEventType.Error, (int)EventId.Service, "INVALID_SIGNATURE: " + e.Message);
-                Logging.Log.ServerResponseMessageError("InvalidSiganture", e.Message);
+                Logging.Log.ServerResponseMessageError("InvalidSignature", e.Message);
                 return false;
             }
         }
@@ -1167,6 +1220,24 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
         {
             // parse more attribute from signature and update rspDto if needed
             return;
+        }
+
+       
+        private X509Certificate2Collection GetSignatureTruststore() {
+            if (string.IsNullOrEmpty(_cfg.SslRootCaCertFiles)) {
+                return new X509Certificate2Collection();
+            }
+
+            X509Certificate2Collection trustStore = new X509Certificate2Collection();
+            var list = _cfg.SslRootCaCertFiles.Split(';').Select(s => s.Trim());
+            foreach (string singleFile in list) {
+                // Load the certificate into an X509Certificate object.
+                X509Certificate2 cert = new X509Certificate2();
+                cert.Import(singleFile);
+                trustStore.Add(cert);
+            }
+
+            return trustStore;
         }
 
     }

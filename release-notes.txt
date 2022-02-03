@@ -1,3 +1,7 @@
+v1.3.2.0 (2022-02-01)
+ * Validate certificate against custom Truststore
+ * Value for mss:SignatureProfile is now configurable
+
 v1.3.1.0 (2021-12-09)
  * Normalize mobile number, remove "-" and whitespaces.
 
