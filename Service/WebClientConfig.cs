@@ -37,7 +37,7 @@ namespace MobileId
         int _pollResponseDelaySeconds = 3;
         int _pollResponseIntervalSeconds = 1;
         UserSerialNumberPolicy _userSericalNumberPolicy = UserSerialNumberPolicy.allowAbsence | UserSerialNumberPolicy.allowMismatch;
-        bool _disableSignatureValidation = false;
+        bool _disableSignRespValidation = false;
         bool _disableSignRespCertValidation = false;
         bool _sanitizePhoneNumber = false;
         Regex _sanitizePhoneNumberRegex = new Regex("\\D", RegexOptions.Compiled, TimeSpan.FromSeconds(1.0));
@@ -112,8 +112,8 @@ namespace MobileId
                             cfg.PollResponseIntervalSeconds = int.Parse(s);
                         if (!string.IsNullOrWhiteSpace(s = xml["UserSerialNumberPolicy"]))
                             cfg.UserSerialNumberPolicy = (UserSerialNumberPolicy)Enum.Parse(typeof(UserSerialNumberPolicy), s, true);
-                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignatureValidation"]))
-                            cfg.DisableSignatureValidation = Boolean.Parse(s);
+                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignRespValidation"]))
+                            cfg.DisableSignRespValidation = Boolean.Parse(s);
                         if (!string.IsNullOrWhiteSpace(s = xml["DisableSignRespCertValidation"]))
                             cfg.DisableSignRespCertValidation = Boolean.Parse(s);
                         if ((s = xml["SanitizePhoneNumber"]) != null)
@@ -276,9 +276,9 @@ namespace MobileId
             set { _userSericalNumberPolicy = value; }
         }
 
-        public bool DisableSignatureValidation {
-            get { return _disableSignatureValidation; }
-            set { _disableSignatureValidation = value; }
+        public bool DisableSignRespValidation {
+            get { return _disableSignRespValidation; }
+            set { _disableSignRespValidation = value; }
         }
 
         public bool DisableSignRespCertValidation {
@@ -344,7 +344,7 @@ namespace MobileId
             // sorted alphabetically in name
             sb.Append("{ApId:\"").Append(_apId);
             sb.Append("\", DtbsPrefix:\"").Append(_dtbsPrefix);
-            sb.Append("\"; DisableSignatureValidation:").Append(_disableSignatureValidation);
+            sb.Append("\"; DisableSignRespValidation:").Append(_disableSignRespValidation);
             sb.Append("; DisableSignRespCertValidation:").Append(_disableSignRespCertValidation);
             sb.Append("; EnableSubscriberInfo:").Append(_enableSubscriberInfo);
             sb.Append("; IgnoreUserSn:").Append(_ignoreUserSn);

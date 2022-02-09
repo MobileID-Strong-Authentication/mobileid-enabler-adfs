@@ -477,7 +477,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 return false;
             }
 
-            if (_cfg.DisableSignatureValidation || _cfg.DisableSignRespCertValidation) { // verify the time-validity of user cert, if not yet done
+            if (_cfg.DisableSignRespValidation || _cfg.DisableSignRespCertValidation) { // verify the time-validity of user cert, if not yet done
                 if (!_isUserCertTimeValid(inDto, outDto)) {
                     return false;
                 }
