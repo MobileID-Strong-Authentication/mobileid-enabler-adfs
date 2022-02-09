@@ -38,7 +38,7 @@ namespace MobileId
         int _pollResponseIntervalSeconds = 1;
         UserSerialNumberPolicy _userSericalNumberPolicy = UserSerialNumberPolicy.allowAbsence | UserSerialNumberPolicy.allowMismatch;
         bool _disableSignatureValidation = false;
-        bool _disableSignatureCertValidation = false;
+        bool _disableSignRespCertValidation = false;
         bool _sanitizePhoneNumber = false;
         Regex _sanitizePhoneNumberRegex = new Regex("\\D", RegexOptions.Compiled, TimeSpan.FromSeconds(1.0));
         string _sanitizePhoneNumberReplacement = "";
@@ -114,8 +114,8 @@ namespace MobileId
                             cfg.UserSerialNumberPolicy = (UserSerialNumberPolicy)Enum.Parse(typeof(UserSerialNumberPolicy), s, true);
                         if (!string.IsNullOrWhiteSpace(s = xml["DisableSignatureValidation"]))
                             cfg.DisableSignatureValidation = Boolean.Parse(s);
-                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignatureCertValidation"]))
-                            cfg.DisableSignatureCertValidation = Boolean.Parse(s);
+                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignRespCertValidation"]))
+                            cfg.DisableSignRespCertValidation = Boolean.Parse(s);
                         if ((s = xml["SanitizePhoneNumber"]) != null)
                             cfg.SanitizePhoneNumber = bool.Parse(s);
                         if (cfg.SanitizePhoneNumber)
@@ -281,9 +281,9 @@ namespace MobileId
             set { _disableSignatureValidation = value; }
         }
 
-        public bool DisableSignatureCertValidation {
-            get { return _disableSignatureCertValidation;}
-            set { _disableSignatureCertValidation = value; }
+        public bool DisableSignRespCertValidation {
+            get { return _disableSignRespCertValidation; }
+            set { _disableSignRespCertValidation = value; }
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace MobileId
             sb.Append("{ApId:\"").Append(_apId);
             sb.Append("\", DtbsPrefix:\"").Append(_dtbsPrefix);
             sb.Append("\"; DisableSignatureValidation:").Append(_disableSignatureValidation);
-            sb.Append("; DisableSignatureCertValidation:").Append(_disableSignatureCertValidation);
+            sb.Append("; DisableSignRespCertValidation:").Append(_disableSignRespCertValidation);
             sb.Append("; EnableSubscriberInfo:").Append(_enableSubscriberInfo);
             sb.Append("; IgnoreUserSn:").Append(_ignoreUserSn);
             sb.Append("; IgnoreUserSnChange:").Append(_ignoreUserSnChange);

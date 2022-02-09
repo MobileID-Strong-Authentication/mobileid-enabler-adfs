@@ -477,7 +477,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 return false;
             }
 
-            if (_cfg.DisableSignatureValidation || _cfg.DisableSignatureCertValidation) { // verify the time-validity of user cert, if not yet done
+            if (_cfg.DisableSignatureValidation || _cfg.DisableSignRespCertValidation) { // verify the time-validity of user cert, if not yet done
                 if (!_isUserCertTimeValid(inDto, outDto)) {
                     return false;
                 }
@@ -1142,7 +1142,7 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
             };
 
             SignedCms signedCms = new SignedCms();
-            bool disableChainValidation = _cfg.DisableSignatureCertValidation;
+            bool disableChainValidation = _cfg.DisableSignRespCertValidation;
             try {
                 signedCms.Decode(signature);
                 byte[] dtbs_cms = signedCms.ContentInfo.Content;
@@ -1182,7 +1182,7 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
                         throw new SecurityException($"{chain.ChainStatus[0].Status}: {chain.ChainStatus[0].StatusInformation}");
                     }
                 } else {
-                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignatureCertValidation)} configured. Certificate root trust is not checked.");
+                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignRespCertValidation)} configured. Certificate root trust is not checked.");
                 }
 
                 // Check signature
@@ -1193,8 +1193,8 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
                 }
 
                 logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='"
-                    + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignatureCertValidation);
-                if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignatureCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
+                    + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignRespCertValidation);
+                if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignRespCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
 
                 // Check signature payload
                 string signedData = Encoding.UTF8.GetString(dtbs_cms);
