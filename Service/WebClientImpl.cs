@@ -22,7 +22,6 @@ namespace MobileId
 
         WebClientConfig _cfg;
         X509Certificate2 sslClientCert;
-        X509Certificate2 sslCACert;
 
         public int GetClientVersion()
         {
@@ -34,7 +33,6 @@ namespace MobileId
             if (cfg == null) throw new ArgumentNullException("WebClientConfig");
             _cfg = cfg;
             sslClientCert = null;
-            sslCACert = null;
         }
 
         protected string _formatSignReqAsSoap(AuthRequestDto req, bool async)
@@ -694,21 +692,6 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "SSL client cert retrieved");
                 Logging.Log.KeyManagementCertRetrieved("SSL client cert");
             }
-
-            // retrieve CA cert from LocalMachine or CurrentUser
-            sslCACert = null;
-            foreach (StoreLocation sl in new StoreLocation[] { StoreLocation.LocalMachine, StoreLocation.CurrentUser })
-            {
-                sslCACert = _retrieveCert(sl, StoreName.Root, X509FindType.FindBySubjectDistinguishedName, _cfg.SslRootCaCertDN);
-                if (sslCACert != null) break;
-            };
-            if (sslCACert == null)
-                throw new Exception("No valid SSL Server Root CA cert found");
-            else {
-                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "SSL Server Root CA cert retrieved");
-                Logging.Log.KeyManagementCertRetrieved("SSL root CA cert");
-            }
-
         }
 
         /// <summary>
@@ -759,7 +742,6 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
             HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(_cfg.ServiceUrlPrefix + soapPortName + "Port");
             // TODO: add HTTP proxy support
             httpReq.ClientCertificates.Add(sslClientCert);
-            httpReq.ClientCertificates.Add(sslCACert);
             httpReq.Method = WebRequestMethods.Http.Post;
             httpReq.ContentType = "text/xml";
             httpReq.ContentLength = data.Length;

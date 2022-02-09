@@ -21,7 +21,6 @@ namespace MobileId
         string _sslMidClientCertThumbprint = null;
 
         // optional input from caller
-        string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
         string _signRespCertFiles = string.Empty;
         StoreLocation _sslMidClientKeystore = StoreLocation.CurrentUser;
         UserLanguage _userLanguageDefault = UserLanguage.en;
@@ -98,8 +97,6 @@ namespace MobileId
                         cfg.SslMidClientCertThumbprint = xml["SslMidClientCertThumbprint"];
                         if (!string.IsNullOrEmpty(s = xml["SslMidClientKeystore"]))
                             cfg.SslMidClientKeystore = Util.ParseKeyStoreLocation(s);
-                        if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
-                            cfg.SslRootCaCertDN = s;
                         if (!string.IsNullOrWhiteSpace(s = xml["SignRespCertFiles"]))
                             cfg.SignRespCertFiles = s;
                         if (!string.IsNullOrEmpty(s = xml["EnableSubscriberInfo"]))
@@ -189,15 +186,6 @@ namespace MobileId
             set { if (value != null)
                 _sslMidClientCertThumbprint = System.Text.RegularExpressions.Regex.Replace(value, @"\s+", ""); 
             }
-        }
-
-        /// <summary>
-        /// Distinguished Name of Root CA Certificate in the CA Chain of the SSL Server Certificate for Mobile ID Service
-        /// </summary>
-        [ConfigurationProperty("SslRootCaCertDN", IsRequired = true)]
-        public string SslRootCaCertDN {
-            get { return _sslCaCertDN; }
-            set { if (! string.IsNullOrEmpty(value)) _sslCaCertDN = value;  }
         }
 
         /// <summary>
@@ -361,7 +349,6 @@ namespace MobileId
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
             sb.Append("; SslMidClientKeystore:").Append(_sslMidClientKeystore);
             sb.Append("; SslMidClientCertThumbprint:\"").Append(_sslMidClientCertThumbprint);
-            sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
             sb.Append("\"; SignRespCertFiles:\"").Append(_signRespCertFiles);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
             sb.Append("\"; UserSerialNumberPolicy:").Append(_userSericalNumberPolicy);

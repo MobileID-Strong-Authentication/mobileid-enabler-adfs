@@ -10,7 +10,6 @@
   SrvSideValidation="FALSE"
   SslMidClientCertThumbprint="AB cd 1 2 "
   SslMidClientKeystore="CurrentUser"
-  SslRootCaCertDN="CN=Some CA, C=CH"
   EnableSubscriberInfo="true"
   SeedApTransId=""
   PollResponseDelaySeconds="2"
