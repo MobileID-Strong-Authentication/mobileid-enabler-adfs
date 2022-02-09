@@ -8,7 +8,7 @@ $global:WarningPreference = "Continue"
 $global:ErrorActionPreference = "Continue"
 
 $shortVersion = "13"
-$fullVersion = "1.3.2.0"
+$fullVersion = "1.3.3.0"
 
 if ($Args[0] -ne $null) {
   $logFile = $Args[0];
