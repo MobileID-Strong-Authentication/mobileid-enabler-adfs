@@ -1224,12 +1224,12 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
 
        
         private X509Certificate2Collection GetSignatureTruststore() {
-            if (string.IsNullOrEmpty(_cfg.SslRootCaCertFiles)) {
+            if (string.IsNullOrEmpty(_cfg.SignRespCertFiles)) {
                 return new X509Certificate2Collection();
             }
 
             X509Certificate2Collection trustStore = new X509Certificate2Collection();
-            var list = _cfg.SslRootCaCertFiles.Split(';').Select(s => s.Trim());
+            var list = _cfg.SignRespCertFiles.Split(';').Select(s => s.Trim());
             foreach (string singleFile in list) {
                 // Load the certificate into an X509Certificate object.
                 X509Certificate2 cert = new X509Certificate2();
