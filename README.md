@@ -88,7 +88,7 @@ The folder [samples](samples) contain several examples. The content of the confi
   <mobileIdClient
     AP_ID="mid://dev.swisscom.ch"
     SslKeystore="LocalMachine"
-    SslCertThumbprint="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
+    SslMidClientCertThumbprint="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
     DtbsPrefix="Test: "
   />
   <mobileIdAdfs/>
@@ -103,9 +103,9 @@ while the element `mobileIdAdfs` specifies the integration of Mobile ID with ADF
   + `DtbsPrefix`: This string will be prepended to the language-specific login prompt sent to a mobile device. Default: ""
   + `ServiceUrlPrefix`: URL for Mobile ID service, must end with `/`. Default: `https://mobileid.swisscom.com/soap/services/`
   + `SslKeystore`: Store location of certificate/key used for Mobile ID connectivity. For ADFS, the value should be usually `LocalMachine`. Default: `CurrentUser`
-  + `SslCertThumbprint`: The SHA1 Thumbprint of certificate used for Mobile ID connectivity. The thumbprint can be read out of the `Certificate` GUI (i.e. double-click the certificate file), or with a PowerShell cmdlet like `Get-ChildItem -Path cert:\\LocalMachine\My`. Mandatory.
+  + `SslMidClientCertThumbprint`: The SHA1 Thumbprint of certificate used for Mobile ID connectivity. The thumbprint can be read out of the `Certificate` GUI (i.e. double-click the certificate file), or with a PowerShell cmdlet like `Get-ChildItem -Path cert:\\LocalMachine\My`. Mandatory.
   + `SslRootCaCertDN`: Distinguished Name of the Root Certificate in the certificate chain of Mobile ID servers. Default: "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch"
-  + `SslRootCaCertFiles`: Additional certificate files
+  + `SignRespCertFiles`: Additional certificate files
   + `UserSerialNumberPolicy`: Flags that determine how the serial number in user’s certificate is used in the authentication.
      Supported flags are warnMismatch(1), allowAbsence(2), allowMismatch (4). Default: "6"
   + `SanitizePhoneNumber`: If this parameter is `true`, phone numbers read from the attribute store are transformed before use in Mobile ID calls. The transformation is specified by `SanitizePhoneNumberPattern` and `SanitizePhoneNumberReplacement`. Default: remove all non-digits

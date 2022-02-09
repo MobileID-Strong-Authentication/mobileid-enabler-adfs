@@ -18,7 +18,7 @@ namespace MobileId
     {
         // mandatory input from caller
         string _apId = null;
-        string _sslCertThumbprint = null;
+        string _sslMidClientCertThumbprint = null;
 
         // optional input from caller
         string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
@@ -95,7 +95,7 @@ namespace MobileId
                         cfg.SignatureProfile = xml["SignatureProfile"];
                         if (!string.IsNullOrEmpty(s = xml["SrvSideValidation"]))
                             cfg.SrvSideValidation = bool.Parse(s);
-                        cfg.SslCertThumbprint = xml["SslCertThumbprint"];
+                        cfg.SslMidClientCertThumbprint = xml["SslMidClientCertThumbprint"];
                         if (!string.IsNullOrEmpty(s = xml["SslKeystore"]))
                             cfg.SslKeystore = Util.ParseKeyStoreLocation(s);
                         if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
@@ -183,11 +183,11 @@ namespace MobileId
         }
         
 
-        [ConfigurationProperty("SslCertThumbprint", IsRequired = true, DefaultValue = "CurrentUser")]
-        public string SslCertThumbprint {
-            get { return _sslCertThumbprint; }
+        [ConfigurationProperty("SslMidClientCertThumbprint", IsRequired = true)]
+        public string SslMidClientCertThumbprint {
+            get { return _sslMidClientCertThumbprint; }
             set { if (value != null)
-                _sslCertThumbprint = System.Text.RegularExpressions.Regex.Replace(value, @"\s+", ""); 
+                _sslMidClientCertThumbprint = System.Text.RegularExpressions.Regex.Replace(value, @"\s+", ""); 
             }
         }
 
@@ -360,7 +360,7 @@ namespace MobileId
             sb.Append("\"; SignatureProfile=\"").Append(_signatureProfile);
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
             sb.Append("; SslKeystore:").Append(_sslKeyStore);
-            sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);
+            sb.Append("; SslMidClientCertThumbprint:\"").Append(_sslMidClientCertThumbprint);
             sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
             sb.Append("\"; SignRespCertFiles:\"").Append(_signRespCertFiles);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
