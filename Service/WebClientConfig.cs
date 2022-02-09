@@ -23,7 +23,7 @@ namespace MobileId
         // optional input from caller
         string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
         string _signRespCertFiles = string.Empty;
-        StoreLocation _sslKeyStore = StoreLocation.CurrentUser;
+        StoreLocation _sslMidClientKeystore = StoreLocation.CurrentUser;
         UserLanguage _userLanguageDefault = UserLanguage.en;
         string _serviceUrlPrefix = "https://mobileid.swisscom.com/soap/services/";
         string _dtbsPrefix = "";
@@ -96,8 +96,8 @@ namespace MobileId
                         if (!string.IsNullOrEmpty(s = xml["SrvSideValidation"]))
                             cfg.SrvSideValidation = bool.Parse(s);
                         cfg.SslMidClientCertThumbprint = xml["SslMidClientCertThumbprint"];
-                        if (!string.IsNullOrEmpty(s = xml["SslKeystore"]))
-                            cfg.SslKeystore = Util.ParseKeyStoreLocation(s);
+                        if (!string.IsNullOrEmpty(s = xml["SslMidClientKeystore"]))
+                            cfg.SslMidClientKeystore = Util.ParseKeyStoreLocation(s);
                         if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
                             cfg.SslRootCaCertDN = s;
                         if (!string.IsNullOrWhiteSpace(s = xml["SignRespCertFiles"]))
@@ -162,16 +162,16 @@ namespace MobileId
             set { _userLanguageDefault = value; } 
         }
 
-        [ConfigurationProperty("SslKeystore", IsRequired = false, DefaultValue = "CurrentUser")]
-        public StoreLocation SslKeystore
+        [ConfigurationProperty("SslMidClientKeystore", IsRequired = false, DefaultValue = "CurrentUser")]
+        public StoreLocation SslMidClientKeystore
         { 
-            get {return _sslKeyStore;}
+            get {return _sslMidClientKeystore;}
             set {
                 switch (value.ToString())
                 {
-                    case "CurrentUser" : _sslKeyStore = StoreLocation.CurrentUser; break;
-                    case "LocalMachine" : _sslKeyStore = StoreLocation.LocalMachine; break;
-                    default: throw new ArgumentOutOfRangeException("SslKeystore is neither 'CurrentUser' nor 'LocalMachine'");
+                    case "CurrentUser" : _sslMidClientKeystore = StoreLocation.CurrentUser; break;
+                    case "LocalMachine" : _sslMidClientKeystore = StoreLocation.LocalMachine; break;
+                    default: throw new ArgumentOutOfRangeException("SslMidClientKeystore is neither 'CurrentUser' nor 'LocalMachine'");
                 }
             }
         }
@@ -359,7 +359,7 @@ namespace MobileId
             sb.Append("\"; ServiceUrlPrefix=\"").Append(_serviceUrlPrefix);
             sb.Append("\"; SignatureProfile=\"").Append(_signatureProfile);
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
-            sb.Append("; SslKeystore:").Append(_sslKeyStore);
+            sb.Append("; SslMidClientKeystore:").Append(_sslMidClientKeystore);
             sb.Append("; SslMidClientCertThumbprint:\"").Append(_sslMidClientCertThumbprint);
             sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
             sb.Append("\"; SignRespCertFiles:\"").Append(_signRespCertFiles);

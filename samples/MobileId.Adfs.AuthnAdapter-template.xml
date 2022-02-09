@@ -2,7 +2,7 @@
 <appConfig>
 <mobileIdClient
   AP_ID="replace this value with your real AP_ID, e.g. mid://dev.swisscom.ch"
-  SslKeystore="LocalMachine"
+  SslMidClientKeystore="LocalMachine"
   SslMidClientCertThumbprint="replace this value with yours, e.g. 452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
   DtbsPrefix="replace this value with yours, including any tailing whitespace, e.g. Test: "
 />

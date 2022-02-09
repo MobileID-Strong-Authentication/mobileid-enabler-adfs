@@ -685,7 +685,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
         {
             // retrieve SSL client cert from certstore:///CurrentUser/My
             sslClientCert = null;
-            sslClientCert = _retrieveCert(_cfg.SslKeystore, StoreName.My, X509FindType.FindByThumbprint, _cfg.SslMidClientCertThumbprint);
+            sslClientCert = _retrieveCert(_cfg.SslMidClientKeystore, StoreName.My, X509FindType.FindByThumbprint, _cfg.SslMidClientCertThumbprint);
             if (sslClientCert == null)
                 throw new Exception("No valid SSL client cert found");
             if (!sslClientCert.HasPrivateKey)

@@ -27,7 +27,7 @@ namespace ServiceTest
             Assert.AreEqual("http://mid.swisscom.ch/MID/v1/AuthProfile1", cfg.SignatureProfile, "SignatureProfile");
             Assert.AreEqual(false, cfg.SrvSideValidation, "SrvSideValidation");
             Assert.AreEqual("ABcd12", cfg.SslMidClientCertThumbprint, "SslMidClientCertThumbprint");
-            Assert.AreEqual(System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser, cfg.SslKeystore, "SslKeystore");
+            Assert.AreEqual(System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser, cfg.SslMidClientKeystore, "SslMidClientKeystore");
             Assert.AreEqual("CN=Some CA, C=CH", cfg.SslRootCaCertDN, "SslRootCaCertDN");
             Assert.AreEqual(true, cfg.EnableSubscriberInfo, "EnableSubscriberInfo");
             Assert.AreEqual("", cfg.SeedApTransId, "SeedApTransId");

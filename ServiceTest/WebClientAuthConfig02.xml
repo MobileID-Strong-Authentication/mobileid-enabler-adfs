@@ -9,7 +9,7 @@
   SignatureProfile="http://mid.swisscom.ch/MID/v1/AuthProfile1"
   SrvSideValidation="FALSE"
   SslMidClientCertThumbprint="AB cd 1 2 "
-  SslKeystore="CurrentUser"
+  SslMidClientKeystore="CurrentUser"
   SslRootCaCertDN="CN=Some CA, C=CH"
   EnableSubscriberInfo="true"
   SeedApTransId=""
