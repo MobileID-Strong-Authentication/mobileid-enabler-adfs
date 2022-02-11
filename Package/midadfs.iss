@@ -3,7 +3,7 @@
 #define MyAppShortName "Mobile ID for ADFS"
 #define MyAppAbb "MobileIdAdfs"
 #define MyAppVersion "1.3"
-#define MyAppFullVersion "1.3.2.0"
+#define MyAppFullVersion "1.3.3.0"
 
 [Setup]
 AppId={{609C382B-1D2D-40F5-B2ED-742C603AD024}

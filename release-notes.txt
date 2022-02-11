@@ -1,3 +1,11 @@
+v1.3.3.0 (2022-02-09)
+ * Configuration Parameter "SslRootCaCertDN" removed
+ * Renamed Configuration Parameter "SslKeystore" to "SslMidClientKeystore"
+ * Renamed Configuration Parameter "SslCertThumbprint" to "SslMidClientCertThumbprint"
+ * Renamed Configuration Parameter "SslRootCaCertFiles" to "SignRespCertFiles"
+ * Renamed Configuration Parameter "DisableSignatureValidation" to "DisableSignRespValidation"
+ * Renamed Configuration Parameter "DisableSignatureCertValidation" to "DisableSignRespCertValidation"
+
 v1.3.2.0 (2022-02-01)
  * Validate certificate against custom Truststore
  * Value for mss:SignatureProfile is now configurable

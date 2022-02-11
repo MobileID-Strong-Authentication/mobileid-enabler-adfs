@@ -18,12 +18,11 @@ namespace MobileId
     {
         // mandatory input from caller
         string _apId = null;
-        string _sslCertThumbprint = null;
+        string _sslMidClientCertThumbprint = null;
 
         // optional input from caller
-        string _sslCaCertDN = "CN=Swisscom Root CA 2, OU=Digital Certificate Services, O=Swisscom, C=ch";
-        string _sslCaCertFiles = string.Empty;
-        StoreLocation _sslKeyStore = StoreLocation.CurrentUser;
+        string _signRespCertFiles = string.Empty;
+        StoreLocation _sslMidClientKeystore = StoreLocation.CurrentUser;
         UserLanguage _userLanguageDefault = UserLanguage.en;
         string _serviceUrlPrefix = "https://mobileid.swisscom.com/soap/services/";
         string _dtbsPrefix = "";
@@ -37,8 +36,8 @@ namespace MobileId
         int _pollResponseDelaySeconds = 3;
         int _pollResponseIntervalSeconds = 1;
         UserSerialNumberPolicy _userSericalNumberPolicy = UserSerialNumberPolicy.allowAbsence | UserSerialNumberPolicy.allowMismatch;
-        bool _disableSignatureValidation = false;
-        bool _disableSignatureCertValidation = false;
+        bool _disableSignRespValidation = false;
+        bool _disableSignRespCertValidation = false;
         bool _sanitizePhoneNumber = false;
         Regex _sanitizePhoneNumberRegex = new Regex("\\D", RegexOptions.Compiled, TimeSpan.FromSeconds(1.0));
         string _sanitizePhoneNumberReplacement = "";
@@ -95,13 +94,11 @@ namespace MobileId
                         cfg.SignatureProfile = xml["SignatureProfile"];
                         if (!string.IsNullOrEmpty(s = xml["SrvSideValidation"]))
                             cfg.SrvSideValidation = bool.Parse(s);
-                        cfg.SslCertThumbprint = xml["SslCertThumbprint"];
-                        if (!string.IsNullOrEmpty(s = xml["SslKeystore"]))
-                            cfg.SslKeystore = Util.ParseKeyStoreLocation(s);
-                        if (!string.IsNullOrEmpty(s = xml["SslRootCaCertDN"]))
-                            cfg.SslRootCaCertDN = s;
-                        if (!string.IsNullOrWhiteSpace(s = xml["SslRootCaCertFiles"]))
-                            cfg.SslRootCaCertFiles = s;
+                        cfg.SslMidClientCertThumbprint = xml["SslMidClientCertThumbprint"];
+                        if (!string.IsNullOrEmpty(s = xml["SslMidClientKeystore"]))
+                            cfg.SslMidClientKeystore = Util.ParseKeyStoreLocation(s);
+                        if (!string.IsNullOrWhiteSpace(s = xml["SignRespCertFiles"]))
+                            cfg.SignRespCertFiles = s;
                         if (!string.IsNullOrEmpty(s = xml["EnableSubscriberInfo"]))
                             cfg.EnableSubscriberInfo = Boolean.Parse(s);
                         cfg.SeedApTransId = xml["SeedApTransId"];
@@ -112,10 +109,10 @@ namespace MobileId
                             cfg.PollResponseIntervalSeconds = int.Parse(s);
                         if (!string.IsNullOrWhiteSpace(s = xml["UserSerialNumberPolicy"]))
                             cfg.UserSerialNumberPolicy = (UserSerialNumberPolicy)Enum.Parse(typeof(UserSerialNumberPolicy), s, true);
-                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignatureValidation"]))
-                            cfg.DisableSignatureValidation = Boolean.Parse(s);
-                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignatureCertValidation"]))
-                            cfg.DisableSignatureCertValidation = Boolean.Parse(s);
+                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignRespValidation"]))
+                            cfg.DisableSignRespValidation = Boolean.Parse(s);
+                        if (!string.IsNullOrWhiteSpace(s = xml["DisableSignRespCertValidation"]))
+                            cfg.DisableSignRespCertValidation = Boolean.Parse(s);
                         if ((s = xml["SanitizePhoneNumber"]) != null)
                             cfg.SanitizePhoneNumber = bool.Parse(s);
                         if (cfg.SanitizePhoneNumber)
@@ -162,16 +159,16 @@ namespace MobileId
             set { _userLanguageDefault = value; } 
         }
 
-        [ConfigurationProperty("SslKeystore", IsRequired = false, DefaultValue = "CurrentUser")]
-        public StoreLocation SslKeystore
+        [ConfigurationProperty("SslMidClientKeystore", IsRequired = false, DefaultValue = "CurrentUser")]
+        public StoreLocation SslMidClientKeystore
         { 
-            get {return _sslKeyStore;}
+            get {return _sslMidClientKeystore;}
             set {
                 switch (value.ToString())
                 {
-                    case "CurrentUser" : _sslKeyStore = StoreLocation.CurrentUser; break;
-                    case "LocalMachine" : _sslKeyStore = StoreLocation.LocalMachine; break;
-                    default: throw new ArgumentOutOfRangeException("SslKeystore is neither 'CurrentUser' nor 'LocalMachine'");
+                    case "CurrentUser" : _sslMidClientKeystore = StoreLocation.CurrentUser; break;
+                    case "LocalMachine" : _sslMidClientKeystore = StoreLocation.LocalMachine; break;
+                    default: throw new ArgumentOutOfRangeException("SslMidClientKeystore is neither 'CurrentUser' nor 'LocalMachine'");
                 }
             }
         }
@@ -183,30 +180,21 @@ namespace MobileId
         }
         
 
-        [ConfigurationProperty("SslCertThumbprint", IsRequired = true, DefaultValue = "CurrentUser")]
-        public string SslCertThumbprint {
-            get { return _sslCertThumbprint; }
+        [ConfigurationProperty("SslMidClientCertThumbprint", IsRequired = true)]
+        public string SslMidClientCertThumbprint {
+            get { return _sslMidClientCertThumbprint; }
             set { if (value != null)
-                _sslCertThumbprint = System.Text.RegularExpressions.Regex.Replace(value, @"\s+", ""); 
+                _sslMidClientCertThumbprint = System.Text.RegularExpressions.Regex.Replace(value, @"\s+", ""); 
             }
-        }
-
-        /// <summary>
-        /// Distinguished Name of Root CA Certificate in the CA Chain of the SSL Server Certificate for Mobile ID Service
-        /// </summary>
-        [ConfigurationProperty("SslRootCaCertDN", IsRequired = true)]
-        public string SslRootCaCertDN {
-            get { return _sslCaCertDN; }
-            set { if (! string.IsNullOrEmpty(value)) _sslCaCertDN = value;  }
         }
 
         /// <summary>
         /// Filename of Root CA Certificate in the CA Chain of the SSL Server Certificate for Mobile ID Service. If the Certificate is not loaded from the 
         /// </summary>
-        [ConfigurationProperty("SslRootCaCertFiles", IsRequired = false, DefaultValue = "")]
-        public string SslRootCaCertFiles{
-            get { return _sslCaCertFiles; }
-            set { if (! string.IsNullOrEmpty(value)) _sslCaCertFiles = value; }
+        [ConfigurationProperty("SignRespCertFiles", IsRequired = false, DefaultValue = "")]
+        public string SignRespCertFiles{
+            get { return _signRespCertFiles; }
+            set { if (! string.IsNullOrEmpty(value)) _signRespCertFiles = value; }
         }
 
         public string ServiceUrlPrefix {
@@ -276,14 +264,14 @@ namespace MobileId
             set { _userSericalNumberPolicy = value; }
         }
 
-        public bool DisableSignatureValidation {
-            get { return _disableSignatureValidation; }
-            set { _disableSignatureValidation = value; }
+        public bool DisableSignRespValidation {
+            get { return _disableSignRespValidation; }
+            set { _disableSignRespValidation = value; }
         }
 
-        public bool DisableSignatureCertValidation {
-            get { return _disableSignatureCertValidation;}
-            set { _disableSignatureCertValidation = value; }
+        public bool DisableSignRespCertValidation {
+            get { return _disableSignRespCertValidation; }
+            set { _disableSignRespCertValidation = value; }
         }
 
         /// <summary>
@@ -344,8 +332,8 @@ namespace MobileId
             // sorted alphabetically in name
             sb.Append("{ApId:\"").Append(_apId);
             sb.Append("\", DtbsPrefix:\"").Append(_dtbsPrefix);
-            sb.Append("\"; DisableSignatureValidation:").Append(_disableSignatureValidation);
-            sb.Append("; DisableSignatureCertValidation:").Append(_disableSignatureCertValidation);
+            sb.Append("\"; DisableSignRespValidation:").Append(_disableSignRespValidation);
+            sb.Append("; DisableSignRespCertValidation:").Append(_disableSignRespCertValidation);
             sb.Append("; EnableSubscriberInfo:").Append(_enableSubscriberInfo);
             sb.Append("; IgnoreUserSn:").Append(_ignoreUserSn);
             sb.Append("; IgnoreUserSnChange:").Append(_ignoreUserSnChange);
@@ -359,10 +347,9 @@ namespace MobileId
             sb.Append("\"; ServiceUrlPrefix=\"").Append(_serviceUrlPrefix);
             sb.Append("\"; SignatureProfile=\"").Append(_signatureProfile);
             sb.Append("\"; SrvSideValidation:").Append(_srvSideValidation);
-            sb.Append("; SslKeystore:").Append(_sslKeyStore);
-            sb.Append("; SslCertThumbprint:\"").Append(_sslCertThumbprint);
-            sb.Append("\"; SslRootCaCertDN:\"").Append(_sslCaCertDN);
-            sb.Append("\"; SslRootCaCertFiles:\"").Append(_sslCaCertFiles);
+            sb.Append("; SslMidClientKeystore:").Append(_sslMidClientKeystore);
+            sb.Append("; SslMidClientCertThumbprint:\"").Append(_sslMidClientCertThumbprint);
+            sb.Append("\"; SignRespCertFiles:\"").Append(_signRespCertFiles);
             sb.Append("\"; UserLanguageDefault:\"").Append(_userLanguageDefault);
             sb.Append("\"; UserSerialNumberPolicy:").Append(_userSericalNumberPolicy);
             sb.Append("; SecurityProtocolType:").Append(_securityProtocolType);

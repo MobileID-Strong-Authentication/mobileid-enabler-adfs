@@ -22,7 +22,6 @@ namespace MobileId
 
         WebClientConfig _cfg;
         X509Certificate2 sslClientCert;
-        X509Certificate2 sslCACert;
 
         public int GetClientVersion()
         {
@@ -34,7 +33,6 @@ namespace MobileId
             if (cfg == null) throw new ArgumentNullException("WebClientConfig");
             _cfg = cfg;
             sslClientCert = null;
-            sslCACert = null;
         }
 
         protected string _formatSignReqAsSoap(AuthRequestDto req, bool async)
@@ -477,7 +475,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 return false;
             }
 
-            if (_cfg.DisableSignatureValidation || _cfg.DisableSignatureCertValidation) { // verify the time-validity of user cert, if not yet done
+            if (_cfg.DisableSignRespValidation || _cfg.DisableSignRespCertValidation) { // verify the time-validity of user cert, if not yet done
                 if (!_isUserCertTimeValid(inDto, outDto)) {
                     return false;
                 }
@@ -685,7 +683,7 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
         {
             // retrieve SSL client cert from certstore:///CurrentUser/My
             sslClientCert = null;
-            sslClientCert = _retrieveCert(_cfg.SslKeystore, StoreName.My, X509FindType.FindByThumbprint, _cfg.SslCertThumbprint);
+            sslClientCert = _retrieveCert(_cfg.SslMidClientKeystore, StoreName.My, X509FindType.FindByThumbprint, _cfg.SslMidClientCertThumbprint);
             if (sslClientCert == null)
                 throw new Exception("No valid SSL client cert found");
             if (!sslClientCert.HasPrivateKey)
@@ -694,21 +692,6 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
                 logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "SSL client cert retrieved");
                 Logging.Log.KeyManagementCertRetrieved("SSL client cert");
             }
-
-            // retrieve CA cert from LocalMachine or CurrentUser
-            sslCACert = null;
-            foreach (StoreLocation sl in new StoreLocation[] { StoreLocation.LocalMachine, StoreLocation.CurrentUser })
-            {
-                sslCACert = _retrieveCert(sl, StoreName.Root, X509FindType.FindBySubjectDistinguishedName, _cfg.SslRootCaCertDN);
-                if (sslCACert != null) break;
-            };
-            if (sslCACert == null)
-                throw new Exception("No valid SSL Server Root CA cert found");
-            else {
-                logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, "SSL Server Root CA cert retrieved");
-                Logging.Log.KeyManagementCertRetrieved("SSL root CA cert");
-            }
-
         }
 
         /// <summary>
@@ -759,7 +742,6 @@ xmlns:fi=""http://mss.ficom.fi/TS102204/v1.0.0#"">
             HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(_cfg.ServiceUrlPrefix + soapPortName + "Port");
             // TODO: add HTTP proxy support
             httpReq.ClientCertificates.Add(sslClientCert);
-            httpReq.ClientCertificates.Add(sslCACert);
             httpReq.Method = WebRequestMethods.Http.Post;
             httpReq.ContentType = "text/xml";
             httpReq.ContentLength = data.Length;
@@ -1142,7 +1124,7 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
             };
 
             SignedCms signedCms = new SignedCms();
-            bool disableChainValidation = _cfg.DisableSignatureCertValidation;
+            bool disableChainValidation = _cfg.DisableSignRespCertValidation;
             try {
                 signedCms.Decode(signature);
                 byte[] dtbs_cms = signedCms.ContentInfo.Content;
@@ -1182,7 +1164,7 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
                         throw new SecurityException($"{chain.ChainStatus[0].Status}: {chain.ChainStatus[0].StatusInformation}");
                     }
                 } else {
-                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignatureCertValidation)} configured. Certificate root trust is not checked.");
+                    logger.TraceEvent(TraceEventType.Verbose, (int)EventId.KeyManagement, $"No MobileId trust store configured or {nameof(_cfg.DisableSignRespCertValidation)} configured. Certificate root trust is not checked.");
                 }
 
                 // Check signature
@@ -1193,8 +1175,8 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
                 }
 
                 logger.TraceEvent(TraceEventType.Verbose, (int)EventId.Service, "Signature Verified: signer_0='"
-                    + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignatureCertValidation);
-                if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignatureCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
+                    + signedCms.SignerInfos[0].Certificate.Subject + "', noChainValidation=" + _cfg.DisableSignRespCertValidation);
+                if (Logging.Log.IsDebugEnabled()) Logging.Log.DebugMessage3("ValidSignature", _cfg.DisableSignRespCertValidation.ToString(), signedCms.SignerInfos[0].Certificate.Subject);
 
                 // Check signature payload
                 string signedData = Encoding.UTF8.GetString(dtbs_cms);
@@ -1224,12 +1206,12 @@ xmlns:v1=""http://uri.etsi.org/TS102204/v1.1.2#"">
 
        
         private X509Certificate2Collection GetSignatureTruststore() {
-            if (string.IsNullOrEmpty(_cfg.SslRootCaCertFiles)) {
+            if (string.IsNullOrEmpty(_cfg.SignRespCertFiles)) {
                 return new X509Certificate2Collection();
             }
 
             X509Certificate2Collection trustStore = new X509Certificate2Collection();
-            var list = _cfg.SslRootCaCertFiles.Split(';').Select(s => s.Trim());
+            var list = _cfg.SignRespCertFiles.Split(';').Select(s => s.Trim());
             foreach (string singleFile in list) {
                 // Load the certificate into an X509Certificate object.
                 X509Certificate2 cert = new X509Certificate2();

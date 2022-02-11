@@ -3,8 +3,8 @@
 <!-- Config for the productive environment with a shorter response delay -->
 <mobileIdClient
   AP_ID="mid://dev.swisscom.ch"
-  SslKeystore = "LocalMachine"
-  SslCertThumbprint ="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
+  SslMidClientKeystore = "LocalMachine"
+  SslMidClientCertThumbprint ="452409b86fb9541eb9dd8e3312b80a2fe2d6daac"
   PollResponseDelaySeconds = "10"
 />
 </appConfig>
