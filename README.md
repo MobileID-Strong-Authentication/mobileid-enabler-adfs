@@ -4,6 +4,15 @@
 
 You can install the MobileID MFA Adapter on a single AD FS instance. If you have an AD FS farm deployment, you will need to install MobileID MFA Adapter on all AD FS instances in the farm to enable MFA.
 
+##### Table of Contents  
+[System Requirement ](#system-requirement)  
+[Runtime Installation - Full Tutorial](#runtime-installation---full-tutorial)  
+[Operational Tasks](#operational-tasks)  
+[Uninstallation of the binaries](#uninstallation-of-the-binaries)  
+[Upgrade](#upgrade)  
+[Troubleshooting](#troubleshooting)  
+[Installation of the Build Environment](#installation-of-the-build-environment)  
+
 ## System Requirement 
 
 A [Mobile ID Account](swisscom.com/mid) is required.
@@ -31,6 +40,15 @@ If you don't want to build from source code, the compiled binaries and a setup p
 ## Runtime Installation - Full Tutorial
 
 For this tutorial we use a Windows Server 2022 instance from Amazon Elastic Compute Cloud (Amazon EC2). This instance is a virtual server in the Amazon Cloud. 
+
+##### Tutorial Overview
+[Step 1: Create Windows Server Instance](#step-1-create-windows-server-instance)  
+[Step 2: Install AD Domain](#step-2-install-ad-domain)  
+[Step 3: Install ADFS Core](#step-3-install-adfs-core)  
+[Step 4: Add Test User](#step-4-add-test-user)  
+[Step 5: Install MID/ADFS Enabler](#step-5-install-midadfs-enabler)  
+[Step 6: Setup MID Certs](#step-6-setup-mid-certs)  
+[Step 7: Login with MID](#step-7-login-with-mid)  
 
 ### Step 1: Create Windows Server Instance
 
@@ -355,7 +373,7 @@ The sample configuration segment write all tracing messages to Windows Event Log
 
 ---
 
-## Installation of the Build Environment:
+## Installation of the Build Environment
 
 1.	Check out the source code from here to your development PC, for example, folder `H:\midadfs` (subfolders are `Service` and `AuthnAdapter`).
 
