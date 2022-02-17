@@ -5,13 +5,13 @@
 You can install the MobileID MFA Adapter on a single AD FS instance. If you have an AD FS farm deployment, you will need to install MobileID MFA Adapter on all AD FS instances in the farm to enable MFA.
 
 ##### Table of Contents  
-[System Requirement ](#system-requirement)  
-[Runtime Installation - Full Tutorial](#runtime-installation---full-tutorial)  
-[Operational Tasks](#operational-tasks)  
-[Uninstallation of the binaries](#uninstallation-of-the-binaries)  
-[Upgrade](#upgrade)  
-[Troubleshooting](#troubleshooting)  
-[Installation of the Build Environment](#installation-of-the-build-environment)  
+* [System Requirement ](#system-requirement)  
+* [Runtime Installation - Full Tutorial](#runtime-installation---full-tutorial)  
+* [Operational Tasks](#operational-tasks)  
+* [Uninstallation of the binaries](#uninstallation-of-the-binaries)  
+* [Upgrade](#upgrade)  
+* [Troubleshooting](#troubleshooting)  
+* [Installation of the Build Environment](#installation-of-the-build-environment)  
 
 ## System Requirement 
 
