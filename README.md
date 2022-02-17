@@ -1,7 +1,8 @@
 # AD FS External Auth Provider for MobileID MFA
 
-This is an Active Directory Federation Service (AD FS) external authentication provider
-which authenticates end users with [Mobile ID](https://mobileid.ch) MFA.
+[MobileID](https://mobileid.ch) for AD FS enables Multi-Factor-Authentication (MFA) capabilities for users that are logging on using Microsoft Active Directory Federation Services (AD FS).
+
+You can install the MobileID MFA Adapter on a single AD FS instance. If you have an AD FS farm deployment, you will need to install MobileID MFA Adapter on all AD FS instances in the farm to enable MFA.
 
 ## System Requirement 
 
