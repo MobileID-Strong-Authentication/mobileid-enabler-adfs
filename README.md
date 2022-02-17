@@ -1,4 +1,4 @@
-# AD FS External Auth Provider for MobileID MFA
+# Microsoft AD FS - MobileID MFA Integration
 
 [MobileID](https://mobileid.ch) for AD FS enables Multi-Factor-Authentication (MFA) capabilities for users that are logging on using Microsoft Active Directory Federation Services (AD FS).
 
