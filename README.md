@@ -19,7 +19,7 @@ A [Mobile ID Account](swisscom.com/mid) is required. Please check the following 
 * Read the [Mobile ID Reference Guide](https://github.com/MobileID-Strong-Authentication/mobileid-api/blob/main/doc/) chapter 2 and 8
 * You got your unique `AP_ID` (Application Provider Identifier) from Swisscom
 * You have created a P12-file (PKCS#12 / private key) according to chapter 8. In this tutorial it is referred as `YourMobileIdKeyFile.p12`
-* You have created a CRT-file (X509 Cert / public key) and wrote down the Thumbprint value. In this tutorial the thumbprint value is required for the `SslMidClientCertThumbprint` parameter configuration
+* You have created a CRT-file (X509 Cert / public key) and wrote down the value of the thumprint (sometimes fingerprint). In this tutorial that value is required for the `SslMidClientCertThumbprint` configuration. To get a SHA1 fingerprint: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```
 
 ### Runtime Environment
 
