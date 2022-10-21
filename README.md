@@ -58,7 +58,7 @@ For this tutorial we use a Windows Server 2022 instance from Amazon Elastic Comp
 
 #### Create a new Amazon Machine Image (AMI) Windows Server instance
 
-If you are not familiar with Amazon EC2, please read their [Started Tutorial](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_GetStarted.html).
+If you are not familiar with Amazon EC2, please read their [GetStarted Tutorial](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_GetStarted.html).
 
 * Select **Microsoft Windows Server 2022 Base (Datacenter edition)** as Amazon Machine Image (AMI)
 * Select instance type. We recommend `t3.large` as a start.
@@ -237,7 +237,7 @@ If you do not already have the WinHttpCertCfg.exe tool on your Windows Server, d
 Please change the subject (in the example below it is adfs-dev.swisscom.ch) according to your own client certificate subject.
 
 ```
-cd 'C:\Program Files (x86)\Windows Resource Kits\Tools'
+cd "C:\Program Files (x86)\Windows Resource Kits\Tools"
 .\winhttpcertcfg.exe -g -c LOCAL_MACHINE\My -s adfs-dev.swisscom.ch -a contoso\\fsgmsa$
 ```
 
