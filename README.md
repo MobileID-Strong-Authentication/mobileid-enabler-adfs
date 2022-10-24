@@ -205,7 +205,10 @@ Enable MFA in ADFS, Run "Server Manager" -> "Tools" -> "AD FS Management"
 * Once finished, open it again and go to **Endpoints**-tab and edit the SAML endpoint to set Binding to **Redirect** (to https://mobileid.ch)
 
 Note: The steps above are for simple demo purposes only!
+
 Copy the Swisscom Root CA certificates to the folder `C:\Program Files (x86)\MobileIdAdfs\v1.3\certs`
+* `C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\sdcs-root2.crt`
+* `C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\sdcs-root4.crt`
 
 Load the MID/ADFS configuration file `myConfig13.xml`.
 
