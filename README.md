@@ -18,18 +18,18 @@ You can install the MobileID MFA Adapter on a single AD FS instance. If you have
 A [Mobile ID Account](swisscom.com/mid) is required. Please check the following points before you continue with this tutorial:
 * Read the [Mobile ID Reference Guide](https://github.com/MobileID-Strong-Authentication/mobileid-api/blob/main/doc/) chapter 2 and 8
 * You got your unique `AP_ID` (Application Provider Identifier) from Swisscom
-* You have created a P12-file (PKCS#12 / private key) according to chapter 8. In this tutorial it is referred as `YourMobileIdKeyFile.p12`
-* You have created a CRT-file (X509 Cert / public key) and wrote down the value of the thumbprint (sometimes called fingerprint). In this tutorial that value is required for the `SslMidClientCertThumbprint` configuration. To get a SHA1 fingerprint: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```
+* You have created a PFX file (PKCS#12 / private key / with a .p12 file extension) according to chapter 8. In this tutorial it is referred as `YourMobileIdKeyFile.p12`
+* You have created a CRT-file (X509 Cert / public key) and wrote down the value of the thumbprint (sometimes called fingerprint). In this tutorial that value is required for the `SslMidClientCertThumbprint` configuration in the [myconfig13.xml](https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/blob/main/samples/myconfig13.xml). To get a SHA1 fingerprint: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```
 
 ### Runtime Environment
 
 #### Installer v1.3.x
 
-* Microsoft Windows Server 2016, 2019, 2022
+* Works with Microsoft Windows Server 2016, 2019, 2022
 
 #### Installer v1.2.x
 
-* Microsoft Windows Server 2012 R2
+* Works with Microsoft Windows Server 2012 R2
 
 ### Build Environment
 
@@ -43,7 +43,7 @@ If you don't want to build from source code, the compiled binaries and a setup p
 
 ## Runtime Installation - Full Tutorial
 
-For this tutorial we use a Windows Server 2022 instance from Amazon Elastic Compute Cloud (Amazon EC2). This instance is a virtual server in the Amazon Cloud. 
+For this tutorial we use a Windows Server 2022 instance from Amazon Elastic Compute Cloud (Amazon EC2) to build an environment from scratch to demo Mobile ID MFA using AD FS.
 
 ##### Tutorial Overview
 [Step 1: Create Windows Server Instance](#step-1-create-windows-server-instance)  
@@ -87,11 +87,16 @@ Note: You can anytime stop or start an instance, which helps to keep costs low. 
 * Copy file from your local disk to the Windows Server's `C:\Users\Administrator\Downloads`. 
 
 You need at least these files:
-* `YourMobileIdKeyFile.p12` - Mobile ID Account Key File (PFX/PKCS#12 format)
+* `YourMobileIdKeyFile.p12` - Mobile ID account PFX file (PFX/PKCS#12 format with .p12 file extension)
 * `midadfs_setup_1.3.*.exe` - Latest [Installer Binary](https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/releases)
 * `myconfig13.xml` - [Configuration file](https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/tree/main/samples)
-* `Swisscom_Root_CA_2.cer` - [Swisscom Root CA 2 Cert](http://aia.swissdigicert.ch/sdcs-root4.crt)
-* `Swisscom_Root_CA_4.cer` - [Swisscom Root CA 4 Cert](http://aia.swissdigicert.ch/sdcs-root2.crt)
+* `sdcs-root4.crt` - [Swisscom Root CA 2 Cert](http://aia.swissdigicert.ch/sdcs-root4.crt)
+* `sdcs-root2.crt` - [Swisscom Root CA 4 Cert](http://aia.swissdigicert.ch/sdcs-root2.crt)
+
+Please adapt the `myconfig13.xml` as you wish. At least the following parameters must be changed to match your own account and key details:
+* AP_ID  (Application Provider Identifier - you will usually get this information with the Swisscom welcome email)
+* SslMidClientCertThumbprint (the SHA1 thumbprint of your account's public certificate: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```)
+* DtbsPrefix (DataToBeSigned prefix text - you will usually get this information with the Swisscom welcome email) 
 
 #### Verify the connectivity to Mobile ID API
 
