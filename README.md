@@ -94,9 +94,9 @@ You need at least these files:
 * `sdcs-root2.crt` - [Swisscom Root CA 4 Cert](http://aia.swissdigicert.ch/sdcs-root2.crt)
 
 Please adapt the `myconfig13.xml` as you wish. At least the following parameters must be changed to match your own account and key details:
-* AP_ID  (Application Provider Identifier - you will usually get this information with the Swisscom welcome email)
-* SslMidClientCertThumbprint (the SHA1 thumbprint of your account's public certificate: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```)
-* DtbsPrefix (DataToBeSigned prefix text - you will usually get this information with the Swisscom welcome email) 
+* `AP_ID`  (Application Provider Identifier - you will usually get this information with the Swisscom welcome email)
+* `SslMidClientCertThumbprint` (the SHA1 thumbprint of your account's public certificate: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```)
+* `DtbsPrefix` (DataToBeSigned prefix text - you will usually get this information with the Swisscom welcome email) 
 
 #### Verify the connectivity to Mobile ID API
 
