@@ -4,7 +4,7 @@
     AP_ID = "mid://adfs-dev.swisscom.ch"
     SslMidClientKeystore = "LocalMachine"
     SslMidClientCertThumbprint = "19cb073f974729d9fec8cb1a0c50866886fcdeba"
-    SignRespCertFiles = "C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\Swisscom_Root_CA_2.crt;C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\Swisscom_Root_CA_4.crt"
+    SignRespCertFiles = "C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\sdcs-root2.crt;C:\Program Files (x86)\MobileIdAdfs\v1.3\certs\sdcs-root4.crt"
     SignatureProfile = "http://mid.swisscom.ch/Any-LoA4"
     DtbsPrefix = "ADFS Demo: "
     RequestTimeOutSeconds = "60"
