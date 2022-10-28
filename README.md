@@ -20,6 +20,7 @@ A [Mobile ID Account](swisscom.com/mid) is required. Please check the following 
 * You got your unique `AP_ID` (Application Provider Identifier) from Swisscom
 * You have created a PFX file (PKCS#12 / private key / with a .p12 file extension) according to chapter 8. In this tutorial it is referred as `YourMobileIdKeyFile.p12`
 * You have created a CRT-file (X509 Cert / public key) and wrote down the value of the thumbprint (sometimes called fingerprint). In this tutorial that value is required for the `SslMidClientCertThumbprint` configuration in the [myconfig13.xml](https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/blob/main/samples/myconfig13.xml). To get a SHA1 fingerprint: ```$ openssl x509 -in YourMobileIdCrtFile.crt -fingerprint -noout```
+* The source IP address (or range) of your AD FS server (or the proxy) has been whitelisted on the Mobile ID Firwall (IP whitelist)
 
 ### Runtime Environment
 
