@@ -1,5 +1,7 @@
 # Microsoft AD FS - MobileID MFA Integration
 
+[![GitHub release](https://img.shields.io/github/v/release/MobileID-Strong-Authentication/mobileid-enabler-adfs?display_name=tag&sort=semver&style=for-the-badge)](https://github.com/MobileID-Strong-Authentication/mobileid-enabler-adfs/releases/latest)
+
 [MobileID](https://mobileid.ch) for AD FS enables Multi-Factor-Authentication (MFA) capabilities for users that are logging on using Microsoft Active Directory Federation Services (AD FS).
 
 You can install the MobileID MFA Adapter on a single AD FS instance. If you have an AD FS farm deployment, you will need to install MobileID MFA Adapter on all AD FS instances in the farm to enable MFA.
