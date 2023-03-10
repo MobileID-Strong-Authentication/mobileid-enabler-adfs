@@ -114,7 +114,7 @@ Set-Content mobileid.swisscom.com.cer -Encoding Byte -Value $cert.Export('Cert')
 Now check if the file `mobileid.swisscom.com.cer` has been created by the script. 
 If it exists it means the connectivity worked. Also check if the certificate is valid (open the file).
 
-Note: There are also other critical connectivity requirements such as  ldap.swissdigitcert.ch. Refer to the [PDF Table 1](./doc/mobile_id_microsoft_adfs_solution_guide_v1_3.pdf).
+Note: There are also other critical connectivity requirements such as  ldap.swissdigitcert.ch.
 
 ### Step 2: Install AD Domain
 
