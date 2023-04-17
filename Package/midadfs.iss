@@ -49,7 +49,6 @@ Source: "..\binaries\Microsoft.Diagnostics.Tracing.EventSource.dll"; DestDir: "{
 Source: "..\binaries\*.etwManifest.dll"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
 Source: "..\binaries\*.etwManifest.man"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
 Source: "..\AuthnAdapter\spin.min.js"; DestDir: "{app}\lib"
-Source: "..\samples\MobileId.Adfs.AuthnAdapter-template.xml"; DestDir: "{app}"; DestName: "MobileId.Adfs.AuthnAdapter.xml"
 ; Source: "..\Admin\*.psm1"; DestDir: "{app}\lib"
 ; Before this script is compiled by ISCC, ..\Admin\*.psm1 are copied to ..\binaries and then signed.
 Source: "..\binaries\*.psm1"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
@@ -65,9 +64,8 @@ Source: "..\Admin\unregister_midadfs.ps1"; DestDir: "{app}"
 Source: "..\Admin\unregister_midadfs.cmd"; DestDir: "{app}"
 Source: "..\Admin\unregister_etw.ps1"; DestDir: "{app}"; Flags: ignoreversion uninsneveruninstall
 Source: "..\Admin\unregister_etw.cmd"; DestDir: "{app}"; Flags: ignoreversion uninsneveruninstall
-Source: "..\certs\mobileid-ca-ssl.crt"; DestDir: "{app}\certs"
-Source: "..\certs\codesigning-swisscom.crt"; DestDir: "{app}\certs"
-Source: "..\certs\Swisscom_Root_CA_2_der.crt"; DestDir: "{app}\certs"
+Source: "..\certs\Swisscom_Root_CA_2.crt"; DestDir: "{app}\certs"
+Source: "..\certs\Swisscom_Root_CA_4.crt"; DestDir: "{app}\certs"
 Source: "..\3RD_PARTY.md"; DestDir: "{app}\license"
 Source: "..\LICENSE"; DestDir: "{app}\license"; DestName: "MobileId_LICENSE.txt"
 Source: "install_midadfs.cmd"; DestDir: "{app}"; Flags: deleteafterinstall
