@@ -113,7 +113,9 @@ namespace MobileId.Adfs
             return s;
         }
 
-        private const string loginFormCommonHtml = @"<form method=""post"" id=""midLoginForm""><input id=""context"" type=""hidden"" name=""Context"" value=""%Context%""/>";
+        private const string loginFormCommonHtml = @"<form method=""post"" id=""midLoginForm"">
+                                                        <input id=""context"" type=""hidden"" name=""Context"" value=""%Context%""/>
+                                                        <input id=""authMethod"" type=""hidden"" name=""AuthMethod"" value=""%AuthMethod%""/>";
         // The next string is documented as a required field in MSDN, but provokes "duplicated authMethod field" server error response in ADFS 3.5.
         // <input id=""authMethod"" type=""hidden"" name=""AuthMethod"" value=""%AuthMethod%""/>"  
             
