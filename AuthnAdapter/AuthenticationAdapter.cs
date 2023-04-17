@@ -210,7 +210,9 @@ namespace MobileId.Adfs
             // Search for the user
             try
             {
-                using (DirectoryEntry entry = new DirectoryEntry())
+                var domain = upn.Split("@".ToCharArray())[1];
+
+                using (DirectoryEntry entry = new DirectoryEntry($"LDAP://{domain}"))
                 {
                     DirectorySearcher ds = new DirectorySearcher(entry);
                     ds.SearchScope = SearchScope.Subtree;
