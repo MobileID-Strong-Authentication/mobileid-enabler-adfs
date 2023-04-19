@@ -49,6 +49,7 @@ Source: "..\binaries\Microsoft.Diagnostics.Tracing.EventSource.dll"; DestDir: "{
 Source: "..\binaries\*.etwManifest.dll"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
 Source: "..\binaries\*.etwManifest.man"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
 Source: "..\AuthnAdapter\spin.min.js"; DestDir: "{app}\lib"
+Source: "..\samples\myconfig13.xml"; DestDir: "{app}"; DestName: "MobileId.Adfs.AuthnAdapter.xml"
 ; Source: "..\Admin\*.psm1"; DestDir: "{app}\lib"
 ; Before this script is compiled by ISCC, ..\Admin\*.psm1 are copied to ..\binaries and then signed.
 Source: "..\binaries\*.psm1"; DestDir: "{app}\lib"; Flags: ignoreversion uninsneveruninstall
