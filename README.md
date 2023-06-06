@@ -227,7 +227,8 @@ Right-click your SSL Client certificate file
 * Local Machine
 * Click Next twice
 * Enter passphrase
-* click Next and finish
+* Automatically select the certificate store based on the type of certificate
+* Click Next and finish
 
 Only if AP Client Cert is self-signed, do this:
 
@@ -237,6 +238,7 @@ Only if AP Client Cert is self-signed, do this:
 * Local Computer; right-click Trusted People, navigate to All Task, then Import,
 * this opens the Certificate Import Wizard; clicks next, 
 * locate the PFX file in File to Import, next, enter passphrase
+* automatically select the certificate store based on the type of certificate
 * clicks next twice, finish
 
 IMPORTANT: Always run `mmc.exe` as Administrator to import the certs into LocalMachine (the `certmgr.msc` imports to CurrentUser only)
@@ -246,6 +248,7 @@ If winhttpcertcfg is not in the path, you might find it in `C:\Program Files (x8
 If you do not already have the WinHttpCertCfg.exe tool on your Windows Server, download and install it from [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=19801).
 
 Please change the subject (in the example below it is adfs-dev.swisscom.ch) according to your own client certificate subject.
+Please change the user (in the example below it is contoso\\fsgmsa$) according to your own server user.
 
 ```
 cd "C:\Program Files (x86)\Windows Resource Kits\Tools"
@@ -391,7 +394,7 @@ While you set up your certificates, you could get errors regarding the access to
 
 * Confirm your certificate and your key are present on the device.
 * Try to use the `WinHttpCertCfg` with the direct path to the PFX-file: `".\winhttpcertcfg.exe -i -c "C:\YourMobileIdKeyFile.pfx" -s -c -a contoso\\fsgmsa$"`
-* Validate and confirm where the keys are saved and by which user. You can use tools such as [FindPrivateKey](https://www.google.com/search?q=PerfView](https://learn.microsoft.com/en-us/dotnet/framework/wcf/find-private-key-tool-findprivatekey-exe).
+* Validate and confirm where the keys are saved and by which user. You can use tools such as `FindPrivateKey`.
 * Try re-importing the keys from scratch.
 
 
