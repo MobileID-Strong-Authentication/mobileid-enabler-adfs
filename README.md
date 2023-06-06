@@ -385,6 +385,22 @@ The sample configuration segment write all tracing messages to Windows Event Log
 </system.diagnostics>
 
 `````
+### The private key is not accessible
+
+While you set up your certificates, you could get errors regarding the access to the private key or be asked to do it with another user. Here are some hints to correct it:
+
+* Confirm your certificate and your key are present on the device.
+* Try to use the `WinHttpCertCfg` with the direct path to the PFX-file: `".\winhttpcertcfg.exe -i -c "C:\YourMobileIdKeyFile.pfx" -s -c -a contoso\\fsgmsa$"`
+* Validate and confirm where the keys are saved and by which user. You can use tools such as [FindPrivateKey](https://www.google.com/search?q=PerfView](https://learn.microsoft.com/en-us/dotnet/framework/wcf/find-private-key-tool-findprivatekey-exe).
+* Try re-importing the keys from scratch.
+
+
+### New sources in the Windows EventLog
+
+In order to create new sources in the Windows EventLog, you could need additional permission to read all the event logs and ensure the source name is unique.
+An administrator permission can be granted temporarily to the service account.
+
+
 
 ---
 
