@@ -303,7 +303,13 @@ namespace MobileId.Adfs
         public IAdapterPresentation BeginAuthentication(Claim identityClaim, HttpListenerRequest reqHttp, IAuthenticationContext ctx)
         {
             logger.TraceEvent(TraceEventType.Verbose, 0, "BeginAuthentication(claim=" + _str(identityClaim) + ", req=" + _str(reqHttp) + ", ctx=" + _str(ctx) + ")");
-            CultureInfo culture = new CultureInfo(ctx.Lcid);
+            CultureInfo culture;
+            try {
+                culture = new CultureInfo(ctx.Lcid);
+            } catch (CultureNotFoundException) {
+                culture = new CultureInfo("en-CH");
+            }
+            
             string uiTrxId = MobileId.Util.BuildRandomBase64Chars(cfgAdfs.LoginNonceLength);
             bool needCheckUserSerialNumber = 
                 ! cfgMid.UserSerialNumberPolicy.HasFlag(UserSerialNumberPolicy.allowAbsence) ||
@@ -481,7 +487,12 @@ namespace MobileId.Adfs
             //};
             logger.TraceEvent(TraceEventType.Verbose, 0, "TryEndAuthentication(act:" + formAction + ", ctx:" + _str(ctx) + ", prf:" + _str(proofData) + ", req:" + _str(request));
             Logging.Log.TryEndAuthenticationStart(formAction, _str(ctx), _str(proofData), _str(request));
-            CultureInfo culture = new CultureInfo(ctx.Lcid);
+            CultureInfo culture;
+            try {
+                culture = new CultureInfo(ctx.Lcid);
+            } catch (CultureNotFoundException) {
+                culture = new CultureInfo("en-CH");
+            }
 
             upn = (string)ctx.Data[USERUPN];
             state = (int) ctx.Data[STATE];

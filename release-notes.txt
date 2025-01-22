@@ -1,3 +1,6 @@
+v1.3.5.0 (2025-01-22)
+ * Use en-CH as fallback culture when creating culture from lcid throws an exception (github issue #17).
+
 v1.3.4.0 (2023-04-18)
  * Inserted hidden field for AuthMethod to support more than one configured MFA methods in ADFS (github issue #15).
 
