@@ -76,7 +76,13 @@ namespace MobileId.Adfs
         // MS API: Returns the title string for the web page which presents the HTML form content to the end user
         public string GetPageTitle(int lcid)
         {
-            return resMgr.GetString(RES_WEB_TITLE, new CultureInfo(lcid)); // "Login with Mobile ID"
+            CultureInfo culture;
+            try {
+                culture = new CultureInfo(lcid);
+            } catch (CultureNotFoundException) {
+                culture = new CultureInfo("en-CH");
+            }
+            return resMgr.GetString(RES_WEB_TITLE, culture); // "Login with Mobile ID"
         }
 
         private string _buildErrorMessage(int lcid)
@@ -102,7 +108,13 @@ namespace MobileId.Adfs
             {
                 portalUrl = (string)this.rspDto.Extensions[AuthResponseExtension.UserAssistencePortalUrl];
                 if (!string.IsNullOrWhiteSpace(portalUrl)) {
-                    portalUrl += "&lang=" + resMgr.GetString(RES_LANGUAGE, new CultureInfo(lcid));
+                    CultureInfo culture;
+                    try {
+                        culture = new CultureInfo(lcid);
+                    } catch (CultureNotFoundException) {
+                        culture = new CultureInfo("en-CH");
+                    }
+                    portalUrl += "&lang=" + resMgr.GetString(RES_LANGUAGE, culture);
                     s = new Regex("#PortalUrl#", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Replace(s, portalUrl);
                 }
             };
@@ -124,7 +136,13 @@ namespace MobileId.Adfs
         public string GetFormHtml(int lcid)
         {
             string s,ret;
-            CultureInfo culture = new CultureInfo(lcid);
+            CultureInfo culture;
+            try {
+                culture = new CultureInfo(lcid);
+            } catch (CultureNotFoundException) {
+                culture = new CultureInfo("en-CH");
+            }
+            
             switch (this.viewId)
             {
                 case AuthView.SignRequestSent: // required params in constructor (mobid_nr, trans_id, poll_delay_millisec)
